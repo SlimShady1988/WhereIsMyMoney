@@ -25,17 +25,4 @@ public class UserController {
         return ResponseEntity.ok("LIST CLIENTS");
 //        return clientService.getClients();
     }
-
-    @PostMapping("/add")
-//    @PreAuthorize("hasRole('SUPERADMIN')")
-    public ResponseEntity<?> addClient(
-//            @RequestBody User user
-    ) {
-        System.err.println("ADD CLIENT CONTROLLER");
-
-//        userService.addUser(user);
-        return ResponseEntity.ok("ADD CLIENT CONTROLLER");
-
-    }
-
 }
