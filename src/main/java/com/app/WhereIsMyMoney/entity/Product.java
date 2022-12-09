@@ -9,16 +9,16 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "operations")
-public class Operation {
+@Table(name = "products")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,35 +27,29 @@ public class Operation {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "price")
+    private Float price;
 
-    @Column(name = "sum", nullable = false)
-    private Integer sum;
 
-    @JsonBackReference
-    @ToString.Exclude
-    @JoinColumn(name = "wallet_id", foreignKey = @ForeignKey(name = "operations_wallets_fk"))
-    @ManyToOne
-    private Wallet wallet;
+    @Column(name = "number_of_items")
+    private Integer numberOfItems;
 
-    @JsonBackReference
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "type_id", foreignKey = @ForeignKey(name = "operations_types_fk"))
-    private Type type;
+    @Column(name = "sum")
+    private Float sum;
 
     @JsonBackReference
     @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "operations_categories_fk"))
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Category category;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "operations_products",
-            joinColumns = @JoinColumn(name = "operation_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
     @ToString.Exclude
-    private List<Product> products = new ArrayList<>();
+    @ManyToMany(
+            mappedBy = "products",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST}
+    )
+    private List<Operation> operations = new ArrayList<>();
+
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -65,4 +59,15 @@ public class Operation {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public void setNumberOfItems(Integer numberOfItems) {
+        this.numberOfItems = numberOfItems != null ? numberOfItems : 1;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price != null ? price : 0;
+
+    }
+    public void setSum(Float sum) {
+        this.sum = sum != null ? sum : this.price * numberOfItems;
+    }
 }

@@ -17,7 +17,7 @@ function Header() {
                     </div>
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li className="active"><a href="#">Рахунки</a></li>
+                            <li className="active"><a href="#">Гаманець</a></li>
                             <li><a href="#">Категорії</a></li>
                             <li><a href="#">Операції</a></li>
                             <li><a href="#">Огляд</a></li>

@@ -1,6 +1,7 @@
 package com.app.WhereIsMyMoney.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,13 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
-@Entity
-@Table(name = "operations")
-public class Operation {
+@Table(name = "wallets")
+public class Wallet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,35 +28,28 @@ public class Operation {
     @Column(name = "name", nullable = false)
     private String name;
 
-
-    @Column(name = "sum", nullable = false)
-    private Integer sum;
-
     @JsonBackReference
     @ToString.Exclude
-    @JoinColumn(name = "wallet_id", foreignKey = @ForeignKey(name = "operations_wallets_fk"))
-    @ManyToOne
-    private Wallet wallet;
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "wallets_persons_fk"))
+    @ManyToOne(optional = false)
+    private User user;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "type_id", foreignKey = @ForeignKey(name = "operations_types_fk"))
-    private Type type;
+    @ManyToMany(
+            mappedBy = "wallets",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Type> types;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "operations_categories_fk"))
-    private Category category;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "operations_products",
-            joinColumns = @JoinColumn(name = "operation_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "wallet",
+            cascade = CascadeType.ALL
     )
-    @ToString.Exclude
-    private List<Product> products = new ArrayList<>();
+    private List<Operation> operations = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
