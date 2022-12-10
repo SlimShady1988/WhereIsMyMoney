@@ -1,15 +1,21 @@
 package com.app.WhereIsMyMoney.controller.admin;
 
+import com.app.WhereIsMyMoney.dto.MessageResponse;
+import com.app.WhereIsMyMoney.dto.UserDTO;
 import com.app.WhereIsMyMoney.entity.User;
 import com.app.WhereIsMyMoney.service.UserService;
+import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/admin/client")
+@RequestMapping("/admin/user")
 public class UserController {
     public UserService userService;
 
@@ -19,10 +25,41 @@ public class UserController {
     }
 
     @GetMapping("/list")
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPERADMIN')")
     public ResponseEntity<?> clientsList() {
-        System.err.println("LIST CLIENTS");
-        return ResponseEntity.ok("LIST CLIENTS");
-//        return clientService.getClients();
+        return ResponseEntity.ok(userService.getUsers());
+    }
+
+    @GetMapping("/{id}/edit")
+    public ResponseEntity<?> profile(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("user", userService.getUserById(id));
+
+        return ResponseEntity.ok(userService.getUserById(id));
+
+    }
+
+    @PatchMapping(value = "/{id}/update")
+    public ResponseEntity<?> update(@PathVariable ("id") Long id, @RequestBody UserDTO user) throws Exception {
+        System.err.println(id);
+        System.err.println(user);
+        userService.updateUser(id, user);
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Location", "/api/admin/user/list");
+//        return new ResponseEntity<String>(headers, HttpStatus.FOUND);
+
+        return ResponseEntity.ok().body(
+                new MessageResponse(String.format("User '%s' was successfully updated", user.getUsername()))
+        );
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
+        var user = userService.getUserById(id);
+        userService.deleteUser(user);
+
+        return ResponseEntity.ok().body(
+                new MessageResponse(String.format("User '%s' was successfully deleted", user.getUsername()))
+        );
     }
 }

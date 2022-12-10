@@ -7,7 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +49,13 @@ public class Category {
     )
     private List<Product> products = new ArrayList<>();
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @CreatedDate
+//    @Column(name = "created_at", nullable = false, updatable = false)
+//    private Date createdAt;
+//
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @LastModifiedDate
+//    @Column(name = "updated_at", nullable = false)
+//    private Date updatedAt;
 }

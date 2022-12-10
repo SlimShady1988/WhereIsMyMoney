@@ -1,6 +1,7 @@
 package com.app.WhereIsMyMoney.config.jwt;
 
 import com.app.WhereIsMyMoney.service.JwtService;
+import com.app.WhereIsMyMoney.service.UserDetailsServiceImpl;
 import com.app.WhereIsMyMoney.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private UserService userService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     private String parseJwt(HttpServletRequest req) {
         String headerAuth = req.getHeader("Authorization");
@@ -35,7 +36,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if (jwt != null && jwtService.validateToken(jwt)) {
                 String username = jwtService.getUserNameFromJwt(jwt);
-                UserDetails userDetails = userService.loadUserByUsername(username);
+                UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );

@@ -32,17 +32,20 @@ import java.util.Optional;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private UserRepository userRepository;
+    private UserService userService;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
+                          UserService userService,
                           RoleRepository roleRepository,
                           PasswordEncoder passwordEncoder,
                           JwtService jwtService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
+        this.userService = userService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -69,7 +72,7 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> signup(@RequestBody UserDTO userDTO) throws Exception {
         if (userRepository.existsByUsername(userDTO.getUsername())) {
             return ResponseEntity.badRequest().body(
                     new MessageResponse(String.format("Error: User with name '%s' exist", userDTO.getUsername()))
@@ -80,25 +83,17 @@ public class AuthController {
                     new MessageResponse(String.format("Error: User with email '%s' exist", userDTO.getEmail()))
             );
         }
-        Collection<String> reqRoles = userDTO.getRoles();
         Collection<Role> roles = new HashSet<>();
-//        System.err.println(reqRoles.contains("USER"));
-
-//        if (reqRoles == null || reqRoles.contains("USER") ) {
-//            Role userRole = roleRepository.
-//                    findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Role User is not found"));
-//            roles.add(userRole);
-//        }
         Role userRole = roleRepository.
                 findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Role User is not found"));
         roles.add(userRole);
-        buildAndSaveUser(userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword(), roles);
+        userService.buildAndSaveUser(userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword(), roles);
 
         return ResponseEntity.ok("User Created");
     }
 
     @PostMapping("/signAdmin")
-    public ResponseEntity<?> signAdmin(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> signAdmin(@RequestBody UserDTO userDTO) throws Exception {
         if (userRepository.existsByUsername(userDTO.getUsername())) {
             return ResponseEntity.badRequest().body(
                     new MessageResponse(String.format("Error: Admin with name '%s' exist", userDTO.getUsername()))
@@ -124,20 +119,13 @@ public class AuthController {
                 roles.add(adminRole);
             }
         });
-        buildAndSaveUser(userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword(), roles);
+        userService.buildAndSaveUser(userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword(), roles);
 
         return ResponseEntity.ok("Admin Created");
     }
 
-    private void buildAndSaveUser(String username, String email, String password, Collection<Role> roles) {
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRoles(roles);
 
-        userRepository.save(user);
-    }
+
 
 
 }

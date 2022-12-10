@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,15 +50,6 @@ public class Product {
     )
     private List<Operation> operations = new ArrayList<>();
 
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     public void setNumberOfItems(Integer numberOfItems) {
         this.numberOfItems = numberOfItems != null ? numberOfItems : 1;
     }
@@ -70,4 +61,14 @@ public class Product {
     public void setSum(Float sum) {
         this.sum = sum != null ? sum : this.price * numberOfItems;
     }
+
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @CreatedDate
+//    @Column(name = "created_at", nullable = false, updatable = false)
+//    private Date createdAt;
+//
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @LastModifiedDate
+//    @Column(name = "updated_at", nullable = false)
+//    private Date updatedAt;
 }

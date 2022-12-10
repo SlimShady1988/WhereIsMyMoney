@@ -10,8 +10,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         show_sql: true
-    hibernate:
-      ddl-auto: create-drop
+  flyway:
+    create-schemas: true
+#    hibernate:
+#      ddl-auto: create-drop
 
 
 server:
