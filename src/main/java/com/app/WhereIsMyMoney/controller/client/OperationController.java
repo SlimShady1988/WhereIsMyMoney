@@ -1,12 +1,16 @@
 package com.app.WhereIsMyMoney.controller.client;
 
 import com.app.WhereIsMyMoney.dto.MessageResponse;
+import com.app.WhereIsMyMoney.dto.OperationDTO;
 import com.app.WhereIsMyMoney.entity.Operation;
-import com.app.WhereIsMyMoney.repository.OperationRepository;
 import com.app.WhereIsMyMoney.service.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/operation")
@@ -17,28 +21,53 @@ public class OperationController {
         this.operationService = operationService;
     }
 
-    @GetMapping()
-    public ResponseEntity<?> getOperation() {
-        return ResponseEntity.ok("Operation getOperation");
-    }
+    @GetMapping("/{walletId}/list")
+    public ResponseEntity<?> getOperationsForPeriod(
+            @PathVariable("walletId") Long walletId,
+            @RequestAttribute(required = false, name = "typeId") Long typeId,
+            @RequestAttribute(required = false, name = "categoryId") Long categoryId
+            ) throws Exception {
+        Map<String, Long> params = new HashMap<>();
+        params.put("wallet", walletId);
+        params.put("type", typeId);
+        params.put("category", categoryId);
+        var operations = operationService.getOperations(params);
 
-    @GetMapping("/list")
-    public ResponseEntity<?> getOperationsForPeriod(Integer period) {
-        return ResponseEntity.ok("Operation getOperationsForPeriod");
+        return ResponseEntity.ok(operations);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addOperation(@RequestBody Operation operation) throws Exception {
+    public ResponseEntity<?> addOperation(@RequestBody OperationDTO operation) {
         operationService.addOperation(operation);
 
         return ResponseEntity.ok().body(
                 new MessageResponse(String.format("Operation '%s' was successfully added", operation.getName())));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteOperation(@RequestBody Operation operation) throws Exception {
+    @GetMapping("/{id}/edit")
+    public ResponseEntity<?> editOperation(Model model, @PathVariable("id") Long id) {
+            model.addAttribute("operation", operationService.getOperation(id));
 
-        operationService.operationDelete(operation);
+            return ResponseEntity.ok(operationService.getOperation(id));
+    }
+
+    @PatchMapping(value = "/{id}/update")
+    public ResponseEntity<?> updateOperation(
+            @PathVariable ("id") Long id,
+            @RequestBody OperationDTO operation
+    ) {
+        operationService.updateOperation(id, operation);
+
+        return ResponseEntity.ok().body(
+                new MessageResponse(String.format("Operation '%s' was successfully updated", operation.getName()))
+        );
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteOperation(@PathVariable ("id") Long id) throws Exception {
+        Operation operation = operationService.getOperation(id);
+        operationService.deleteOperation(operation);
 
         return ResponseEntity.ok().body(
                 new MessageResponse(String.format("Operation '%s' was successfully deleted", operation.getName())));

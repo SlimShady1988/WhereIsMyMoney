@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,7 +23,7 @@ import java.util.List;
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
 })
-
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
@@ -61,7 +62,7 @@ public class User {
 //    @CreationTimestamp
 //    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 //    private Date createdAt;
-
+//
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @LastModifiedDate
 //    @Column(name = "updated_at", nullable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")

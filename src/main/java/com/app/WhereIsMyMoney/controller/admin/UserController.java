@@ -39,8 +39,6 @@ public class UserController {
 
     @PatchMapping(value = "/{id}/update")
     public ResponseEntity<?> update(@PathVariable ("id") Long id, @RequestBody UserDTO user) throws Exception {
-        System.err.println(id);
-        System.err.println(user);
         userService.updateUser(id, user);
 
 //        HttpHeaders headers = new HttpHeaders();

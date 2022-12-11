@@ -35,13 +35,13 @@ public class Wallet {
     @ManyToOne(optional = false)
     private User user;
 
-    @JsonManagedReference
-    @ToString.Exclude
-    @ManyToMany(
-            mappedBy = "wallets",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Collection<Type> types;
+//    @JsonManagedReference
+//    @ToString.Exclude
+//    @ManyToMany(
+//            mappedBy = "wallets",
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    private Collection<Type> types;
 
     @JsonManagedReference
     @ToString.Exclude

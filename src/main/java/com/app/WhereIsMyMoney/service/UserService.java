@@ -38,11 +38,11 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(()
                 -> new UsernameNotFoundException(String.format("User with id '%s' not exist", id)));
     }
-    public User getUser(String username) {
-        return userRepository.findByUsername(username).orElseThrow(()
-                -> new UsernameNotFoundException(String.format("User with name '%s' not exist", username)));
-    }
-    public void updateUser(Long id, UserDTO user) throws ClassNotFoundException {
+//    public User getUser(String username) {
+//        return userRepository.findByUsername(username).orElseThrow(()
+//                -> new UsernameNotFoundException(String.format("User with name '%s' not exist", username)));
+//    }
+    public void updateUser(Long id, UserDTO user) {
         User existedUser = getUserById(id);
         if(user.getUsername() != null)
             existedUser.setUsername(user.getUsername());

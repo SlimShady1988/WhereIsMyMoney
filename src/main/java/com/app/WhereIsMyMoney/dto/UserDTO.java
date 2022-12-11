@@ -18,10 +18,10 @@ public class UserDTO {
     private String password;
 
     public static UserDTO create(User user) {
-        HashSet<String> roles = new HashSet<>();
-        user.getRoles().forEach(role -> {
-            roles.add(role.getName().name());
-        });
+//        HashSet<String> roles = new HashSet<>();
+//        user.getRoles().forEach(role -> {
+//            roles.add(role.getName().name());
+//        });
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(user.getEmail());
 //        userDTO.setRoles(roles);

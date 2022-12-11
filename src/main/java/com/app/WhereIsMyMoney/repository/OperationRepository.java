@@ -3,14 +3,22 @@ package com.app.WhereIsMyMoney.repository;
 import com.app.WhereIsMyMoney.entity.Category;
 import com.app.WhereIsMyMoney.entity.Operation;
 import com.app.WhereIsMyMoney.entity.Type;
+import com.app.WhereIsMyMoney.entity.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface OperationRepository extends JpaRepository<Operation, Long> {
+
+    List<Operation> findAllByCategoryAndWallet(Category category, Wallet wallet);
+    List<Operation> findAllByTypeAndWallet(Type type, Wallet wallet);
+    List<Operation> findAllByWallet(Wallet wallet);
+
     @Transactional
     @Modifying
     @Query("update Operation o set o.type = ?1")

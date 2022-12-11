@@ -42,14 +42,14 @@ public class Type {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "type", cascade = CascadeType.ALL)
     private List<Category> categories = new ArrayList<>();
 
-    @JsonBackReference
-    @ToString.Exclude
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "types_wallets",
-            joinColumns = @JoinColumn(name = "type_id"),
-            inverseJoinColumns = @JoinColumn(name = "wallet_id")
-    )
-    private List<Wallet> wallets;
+//    @JsonBackReference
+//    @ToString.Exclude
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "types_wallets",
+//            joinColumns = @JoinColumn(name = "type_id"),
+//            inverseJoinColumns = @JoinColumn(name = "wallet_id")
+//    )
+//    private List<Wallet> wallets;
 
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @CreationTimestamp
