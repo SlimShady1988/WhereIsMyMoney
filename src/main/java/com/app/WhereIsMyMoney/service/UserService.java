@@ -1,22 +1,16 @@
 package com.app.WhereIsMyMoney.service;
 
 import com.app.WhereIsMyMoney.dto.UserDTO;
-import com.app.WhereIsMyMoney.entity.ERole;
 import com.app.WhereIsMyMoney.entity.Role;
 import com.app.WhereIsMyMoney.entity.User;
 import com.app.WhereIsMyMoney.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserService {
@@ -34,7 +28,7 @@ public class UserService {
     public List<User> getUsers() {
         return userRepository.findAll();
     }
-    public User getUserById(Long id) {
+    public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(()
                 -> new UsernameNotFoundException(String.format("User with id '%s' not exist", id)));
     }
@@ -43,7 +37,7 @@ public class UserService {
 //                -> new UsernameNotFoundException(String.format("User with name '%s' not exist", username)));
 //    }
     public void updateUser(Long id, UserDTO user) {
-        User existedUser = getUserById(id);
+        User existedUser = findById(id);
         if(user.getUsername() != null)
             existedUser.setUsername(user.getUsername());
         if(user.getEmail() != null)

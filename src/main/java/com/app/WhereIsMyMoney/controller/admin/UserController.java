@@ -2,13 +2,8 @@ package com.app.WhereIsMyMoney.controller.admin;
 
 import com.app.WhereIsMyMoney.dto.MessageResponse;
 import com.app.WhereIsMyMoney.dto.UserDTO;
-import com.app.WhereIsMyMoney.entity.User;
 import com.app.WhereIsMyMoney.service.UserService;
-import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +26,9 @@ public class UserController {
 
     @GetMapping("/{id}/edit")
     public ResponseEntity<?> profile(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("user", userService.findById(id));
 
-        return ResponseEntity.ok(userService.getUserById(id));
+        return ResponseEntity.ok(userService.findById(id));
 
     }
 
@@ -53,7 +48,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
-        var user = userService.getUserById(id);
+        var user = userService.findById(id);
         userService.deleteUser(user);
 
         return ResponseEntity.ok().body(

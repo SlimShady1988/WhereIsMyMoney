@@ -30,7 +30,6 @@ public class Product {
     @Column(name = "price")
     private Float price;
 
-
     @Column(name = "number_of_items")
     private Integer numberOfItems;
 
@@ -42,13 +41,19 @@ public class Product {
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Category category;
 
+//    @ToString.Exclude
+//    @ManyToMany(
+//            mappedBy = "products",
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.MERGE, CascadeType.PERSIST}
+//    )
+//    private List<Operation> operations = new ArrayList<>();
+
+    @JsonBackReference
     @ToString.Exclude
-    @ManyToMany(
-            mappedBy = "products",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST}
-    )
-    private List<Operation> operations = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "operation_id", foreignKey = @ForeignKey(name = "operations_categories_fk"))
+    private Operation operation;
 
     public void setNumberOfItems(Integer numberOfItems) {
         this.numberOfItems = numberOfItems != null ? numberOfItems : 1;
@@ -56,10 +61,12 @@ public class Product {
 
     public void setPrice(Float price) {
         this.price = price != null ? price : 0;
-
+    }
+    public void setSum() {
+        this.sum = price * numberOfItems;
     }
     public void setSum(Float sum) {
-        this.sum = sum != null ? sum : this.price * numberOfItems;
+        this.sum = sum;
     }
 
 //    @Temporal(TemporalType.TIMESTAMP)

@@ -1,6 +1,7 @@
 package com.app.WhereIsMyMoney.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -27,8 +28,8 @@ public class Operation {
     private String name;
 
 
-    @Column(name = "sum", nullable = false)
-    private Integer sum;
+//    @Column(name = "sum")
+//    private Integer sum;
 
     @JsonBackReference
     @ToString.Exclude
@@ -48,13 +49,22 @@ public class Operation {
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "operations_categories_fk"))
     private Category category;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "operations_products",
-            joinColumns = @JoinColumn(name = "operation_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
+    @JsonManagedReference
     @ToString.Exclude
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "operation",
+            cascade = CascadeType.ALL
+    )
+    private List<Product> products;
+
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "operations_products",
+//            joinColumns = @JoinColumn(name = "operation_id"),
+//            inverseJoinColumns = @JoinColumn(name = "product_id")
+//    )
+//    @ToString.Exclude
+//    private List<Product> products = new ArrayList<>();
 //
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @CreatedDate

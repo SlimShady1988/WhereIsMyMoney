@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/operation")
+@RequestMapping("/operations")
 public class OperationController {
     private final OperationService operationService;
     @Autowired
@@ -24,8 +23,8 @@ public class OperationController {
     @GetMapping("/{walletId}/list")
     public ResponseEntity<?> getOperationsForPeriod(
             @PathVariable("walletId") Long walletId,
-            @RequestAttribute(required = false, name = "typeId") Long typeId,
-            @RequestAttribute(required = false, name = "categoryId") Long categoryId
+            @RequestParam(required = false, name = "typeId") Long typeId,
+            @RequestParam(required = false, name = "categoryId") Long categoryId
             ) throws Exception {
         Map<String, Long> params = new HashMap<>();
         params.put("wallet", walletId);
@@ -46,27 +45,24 @@ public class OperationController {
 
     @GetMapping("/{id}/edit")
     public ResponseEntity<?> editOperation(Model model, @PathVariable("id") Long id) {
-            model.addAttribute("operation", operationService.getOperation(id));
+        model.addAttribute("operation", operationService.findById(id));
 
-            return ResponseEntity.ok(operationService.getOperation(id));
+            return ResponseEntity.ok(operationService.findById(id));
     }
 
-    @PatchMapping(value = "/{id}/update")
+    @PatchMapping(value = "/update")
     public ResponseEntity<?> updateOperation(
-            @PathVariable ("id") Long id,
-            @RequestBody OperationDTO operation
+            @RequestBody OperationDTO operationDTO
     ) {
-        operationService.updateOperation(id, operation);
-
+        var operation = operationService.updateOperation(operationDTO);
         return ResponseEntity.ok().body(
                 new MessageResponse(String.format("Operation '%s' was successfully updated", operation.getName()))
         );
-
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOperation(@PathVariable ("id") Long id) throws Exception {
-        Operation operation = operationService.getOperation(id);
+        Operation operation = operationService.findById(id);
         operationService.deleteOperation(operation);
 
         return ResponseEntity.ok().body(

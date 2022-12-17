@@ -6,7 +6,6 @@ import com.app.WhereIsMyMoney.dto.MessageResponse;
 import com.app.WhereIsMyMoney.dto.UserDTO;
 import com.app.WhereIsMyMoney.entity.ERole;
 import com.app.WhereIsMyMoney.entity.Role;
-import com.app.WhereIsMyMoney.entity.User;
 import com.app.WhereIsMyMoney.repository.RoleRepository;
 import com.app.WhereIsMyMoney.repository.UserRepository;
 import com.app.WhereIsMyMoney.service.JwtService;
@@ -18,7 +17,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -31,23 +29,20 @@ import java.util.Optional;
 @CrossOrigin
 public class AuthController {
     private final AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private UserService userService;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
     private final JwtService jwtService;
 
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           UserService userService,
                           RoleRepository roleRepository,
-                          PasswordEncoder passwordEncoder,
                           JwtService jwtService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.userService = userService;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 

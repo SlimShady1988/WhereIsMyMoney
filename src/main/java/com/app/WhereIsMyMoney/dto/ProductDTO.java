@@ -6,10 +6,12 @@ import lombok.*;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class OperationDTO {
+public class ProductDTO {
     private Long id;
     private String name;
-    private Long wallet;
-    private Long type;
+    private Float price;
+    private Integer numberOfItems;
+    private Float sum;
     private Long category;
+    private Long operation;
 }

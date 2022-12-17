@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/wallet")
 public class WalletController {
@@ -21,24 +23,25 @@ public class WalletController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getWallet(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(walletService.getWalletById(id));
+        return ResponseEntity.ok().body(walletService.findById(id));
     }
 
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getWallets(@PathVariable("userId") Long id) {
-        return ResponseEntity.ok().body(walletService.getWallets(id));
+    @GetMapping("/{userId}/list")
+    public ResponseEntity<?> getWallets(@PathVariable("userId") Long userId) {
+        return ResponseEntity.ok().body(walletService.getWallets(userId));
     }
 
     @GetMapping("/{id}/edit")
     public ResponseEntity<?> editWallet(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("wallet", walletService.getWalletById(id));
-        return ResponseEntity.ok(walletService.getWalletById(id));
+        model.addAttribute("wallet", walletService.findById(id));
+        return ResponseEntity.ok(walletService.findById(id));
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> updateWallet(@RequestBody String name, @PathVariable Long id) throws Exception {
-        Wallet wallet = walletService.getWalletById(id);
+    public ResponseEntity<?> updateWallet(HttpServletRequest request, @PathVariable Long id) throws Exception {
+        var name = request.getParameter("name");
+        Wallet wallet = walletService.findById(id);
         wallet.setName(name);
         walletService.saveWallet(wallet);
 
@@ -46,11 +49,18 @@ public class WalletController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addWallet(@RequestBody String name, @RequestBody Long userId) throws Exception {
+    public ResponseEntity<?> addWallet(HttpServletRequest request) throws Exception {
+        var userId = Long.valueOf(request.getParameter("userId"));
+        var name = request.getParameter("name");
         walletService.createWallet(userId, name);
         return ResponseEntity.ok().body(new MessageResponse("Wallet was successfully created"));
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> addWallet(@PathVariable("id") Long id) throws Exception {
+        Wallet wallet = walletService.findById(id);
+        walletService.deleteWallet(wallet);
+        return ResponseEntity.ok().body(new MessageResponse("Wallet was successfully deleted"));
+    }
 
 }

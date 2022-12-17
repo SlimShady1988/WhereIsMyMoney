@@ -13,12 +13,8 @@ public class TypeService {
         this.typeRepository = typeRepository;
     }
 
-    public Type getTypeById(Long id) throws Exception {
-        try {
-           return typeRepository.findById(id).orElseThrow(RuntimeException::new);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    public Type findById(Long id) {
+        return typeRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
 }

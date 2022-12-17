@@ -34,7 +34,6 @@ public class Category {
     @ManyToOne
     @JoinColumn(
             name = "type_id",
-            unique = true,
             nullable = false,
             foreignKey = @ForeignKey(name = "categories_types_fk")
     )

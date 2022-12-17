@@ -20,19 +20,19 @@ public class WalletService {
         this.userService = userService;
     }
 
-    public Wallet getWalletById(Long id) {
+    public Wallet findById(Long id) {
         return walletRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     public List<Wallet> getWallets(Long userId) {
-        User user = userService.getUserById(userId);
+        User user = userService.findById(userId);
 
         return walletRepository.findAllByUser(user);
     }
 
     public void createWallet(Long userId, String name ) throws Exception {
         try{
-            User user = userService.getUserById(userId);
+            User user = userService.findById(userId);
             Wallet wallet = new Wallet();
             wallet.setUser(user);
             wallet.setName(name);

@@ -1,15 +1,12 @@
 package com.app.WhereIsMyMoney.service;
 
 import com.app.WhereIsMyMoney.dto.OperationDTO;
-import com.app.WhereIsMyMoney.dto.UserDTO;
 import com.app.WhereIsMyMoney.entity.*;
-import com.app.WhereIsMyMoney.service.CategoryService;
 import com.app.WhereIsMyMoney.repository.OperationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class OperationService {
@@ -33,20 +30,20 @@ public class OperationService {
     }
 
 
-    public Operation getOperation(Long id) {
+    public Operation findById(Long id) {
         return operationRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
 
     public List<Operation> getOperations(Map<String, Long> params) throws Exception {
-        Wallet wallet = walletService.getWalletById(params.get("wallet"));
+        Wallet wallet = walletService.findById(params.get("wallet"));
         try {
             if (params.get("category") != null) {
                 Category category = categoryService.findById(params.get("category"));
                 return operationRepository.findAllByCategoryAndWallet(category, wallet);
             }
             if (params.get("type") != null) {
-                Type type = typeService.getTypeById(params.get("type"));
+                Type type = typeService.findById(params.get("type"));
                 return operationRepository.findAllByTypeAndWallet(type, wallet);
             }
             return operationRepository.findAllByWallet(wallet);
@@ -57,28 +54,35 @@ public class OperationService {
 
     }
 
-    public void updateOperation(Long id, OperationDTO operation) {
-        Operation existedOperation = getOperation(id);
-        if(operation.getName() != null)
+    public Operation updateOperation(OperationDTO operation) {
+        Operation existedOperation = findById(operation.getId());
+        if(operation.getName() != null) {
             existedOperation.setName(operation.getName());
-        if(operation.getWallet() != null)
-            existedOperation.setWallet(operation.getWallet());
-        if(operation.getType() != null)
-            existedOperation.setType(operation.getType());
-        if(operation.getCategory() != null)
-            existedOperation.setCategory(operation.getCategory());
+        }
+        if(operation.getWallet() != null) {
+            var wallet = walletService.findById(operation.getWallet());
+            existedOperation.setWallet(wallet);
+        }
+        if(operation.getCategory() != null) {
+            var category = categoryService.findById(operation.getCategory());
+            existedOperation.setCategory(category);
+        }
 
-        operationRepository.save(existedOperation);
+        return operationRepository.save(existedOperation);
     }
 
 
     public void addOperation(OperationDTO operation) {
         try {
+            var category = categoryService.findById(operation.getCategory());
+            var type = typeService.findById(operation.getType());
+            var wallet = walletService.findById(operation.getWallet());
             Operation newOperation = new Operation();
-            newOperation.setCategory(operation.getCategory());
-            newOperation.setType(operation.getType());
+            newOperation.setWallet(wallet);
+            newOperation.setType(type);
+            newOperation.setCategory(category);
             newOperation.setName(operation.getName());
-            newOperation.setWallet(operation.getWallet());
+
             operationRepository.save(newOperation);
 
         } catch (Exception e) {

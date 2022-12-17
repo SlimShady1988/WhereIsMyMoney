@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-
-@RestController
-@RequestMapping("/view")
-public class ViewController {
-    @GetMapping
-    public ResponseEntity<?> getView(Principal principal){
-        return ResponseEntity.ok("View"+ principal.toString());
-    }
-}
+//
+//@RestController
+//@RequestMapping("/view")
+//public class ViewController {
+//    @GetMapping
+//    public ResponseEntity<?> getView(Principal principal){
+//        return ResponseEntity.ok("View"+ principal.toString());
+//    }
+//}
