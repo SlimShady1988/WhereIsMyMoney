@@ -36,10 +36,10 @@ public class Product {
     @Column(name = "sum")
     private Float sum;
 
-    @JsonBackReference
-    @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    private Category category;
+//    @JsonBackReference
+//    @ToString.Exclude
+//    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+//    private Category category;
 
 //    @ToString.Exclude
 //    @ManyToMany(

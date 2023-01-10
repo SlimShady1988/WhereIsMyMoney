@@ -1,8 +1,10 @@
 package com.app.WhereIsMyMoney.entity;
 
+import com.app.WhereIsMyMoney.service.ProductService;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -28,8 +30,8 @@ public class Operation {
     private String name;
 
 
-//    @Column(name = "sum")
-//    private Integer sum;
+    @Column(name = "value", nullable = false)
+    private Float value;
 
     @JsonBackReference
     @ToString.Exclude
@@ -58,7 +60,7 @@ public class Operation {
     )
     private List<Product> products;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
+    //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "operations_products",
 //            joinColumns = @JoinColumn(name = "operation_id"),
 //            inverseJoinColumns = @JoinColumn(name = "product_id")

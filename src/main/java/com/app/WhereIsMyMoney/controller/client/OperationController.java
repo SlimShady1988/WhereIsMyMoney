@@ -20,9 +20,9 @@ public class OperationController {
         this.operationService = operationService;
     }
 
-    @GetMapping("/{walletId}/list")
+    @GetMapping("/list")
     public ResponseEntity<?> getOperationsForPeriod(
-            @PathVariable("walletId") Long walletId,
+            @RequestParam(required = false, name = "walletId") Long walletId,
             @RequestParam(required = false, name = "typeId") Long typeId,
             @RequestParam(required = false, name = "categoryId") Long categoryId
             ) throws Exception {

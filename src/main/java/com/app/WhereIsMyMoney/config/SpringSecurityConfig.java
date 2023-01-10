@@ -44,6 +44,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/signAdmin").hasRole("SUPERADMIN")
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN", "SUPERADMIN")
+//                .antMatchers("/admin/user/{id}/edit**").authenticated()
                 .anyRequest().authenticated();
 //                .antMatchers("/profile/**").authenticated()
 //                .and()

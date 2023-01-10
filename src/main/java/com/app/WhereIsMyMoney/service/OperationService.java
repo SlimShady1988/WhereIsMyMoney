@@ -14,17 +14,20 @@ public class OperationService {
     private final OperationRepository operationRepository;
     private final CategoryService categoryService;
     private final WalletService walletService;
+    private final ProductService productService;
     private final TypeService typeService;
 
     public OperationService(
             OperationRepository operationRepository,
             CategoryService categoryService,
             WalletService walletService,
+            ProductService productService,
             TypeService typeService
     ) {
         this.operationRepository = operationRepository;
         this.categoryService = categoryService;
         this.walletService = walletService;
+        this.productService = productService;
         this.typeService = typeService;
 
     }
@@ -51,7 +54,6 @@ public class OperationService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-
     }
 
     public Operation updateOperation(OperationDTO operation) {
@@ -77,10 +79,12 @@ public class OperationService {
             var category = categoryService.findById(operation.getCategory());
             var type = typeService.findById(operation.getType());
             var wallet = walletService.findById(operation.getWallet());
+            var value = productService.getValue(operation.getId());
             Operation newOperation = new Operation();
             newOperation.setWallet(wallet);
             newOperation.setType(type);
             newOperation.setCategory(category);
+            newOperation.setValue(value);
             newOperation.setName(operation.getName());
 
             operationRepository.save(newOperation);

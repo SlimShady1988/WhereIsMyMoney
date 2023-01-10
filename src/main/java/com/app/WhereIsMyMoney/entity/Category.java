@@ -3,12 +3,8 @@ package com.app.WhereIsMyMoney.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +42,18 @@ public class Category {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Product> products = new ArrayList<>();
+    private List<Operation> operations = new ArrayList<>();
+
+
+
+//    @JsonManagedReference
+//    @ToString.Exclude
+//    @OneToMany(
+//            mappedBy = "category",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY
+//    )
+//    private List<Product> products = new ArrayList<>();
 
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @CreatedDate

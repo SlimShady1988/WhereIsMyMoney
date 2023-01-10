@@ -6,11 +6,13 @@ import com.app.WhereIsMyMoney.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final CategoryService categoryService;
+//    private final CategoryService categoryService;
     private final OperationService operationService;
     private final TypeService typeService;
 
@@ -21,7 +23,7 @@ public class ProductService {
             TypeService typeService
     ) {
         this.productRepository = productRepository;
-        this.categoryService = categoryService;
+//        this.categoryService = categoryService;
         this.operationService = operationService;
         this.typeService = typeService;
 
@@ -43,15 +45,20 @@ public class ProductService {
 
     }
 
-
+    public Float getValue(Long id) throws Exception {
+        List<Product> products = getProducts(id);
+        AtomicReference<Float> value = new AtomicReference<>(0F);
+        products.stream().map(product -> value.updateAndGet(v -> v + product.getSum()));
+        return value.get();
+    }
 
 
     public void addProduct(ProductDTO productDTO) {
         try {
-            var category = categoryService.findById(productDTO.getCategory());
+//            var category = categoryService.findById(productDTO.getCategory());
             var operation = operationService.findById(productDTO.getOperation());
             Product product = new Product();
-            product.setCategory(category);
+//            product.setCategory(category);
             product.setName(productDTO.getName());
             product.setOperation(operation);
 
@@ -73,8 +80,8 @@ public class ProductService {
     public Product updateProduct(ProductDTO productDTO) {
         Product product = findById(productDTO.getId());
         if (productDTO.getCategory() != null) {
-            var category = categoryService.findById(productDTO.getCategory());
-            product.setCategory(category);
+//            var category = categoryService.findById(productDTO.getCategory());
+//            product.setCategory(category);
         }
         if (productDTO.getOperation() != null) {
             var operation = operationService.findById(productDTO.getOperation());

@@ -1,0 +1,53 @@
+.debit {
+    background-color: #026425;
+    pointer-events: none;
+}
+.credit {
+    background-color: darkred;
+    pointer-events: none;
+}
+
+
+.card {
+    margin: 0;
+    /*margin: 0;*/
+
+    padding: 0;
+    position: static;
+    right: 200px;
+}
+/*div.col-md-9 > div.debit.card {*/
+/*    background-color: #b9d9ff;*/
+/*}*/
+div.debit.card-body {
+    background-color: #b9d9ff;
+}
+div.credit.card-body {
+    background-color: #fdbbc4;
+}
+
+.accordion {
+    margin-bottom: 0;
+    --bs-accordion-border-color: none;
+    border-top-left-radius: unset;
+}
+
+.accordion-button {
+    margin-bottom: 0;
+    padding: 0 12px 0 12px;
+    /*--bs-accordion-btn-color:*/
+}
+.accordion-button:not(.collapsed) {
+    background-color: snow var(--bs-accordion-active-bg);
+}
+
+.accordion-button:focus {
+    /*border: none;*/
+    box-shadow: none;
+
+}
+
+.card>hr {
+    margin: 0 3px 0 3px;
+    width: 98%;
+}

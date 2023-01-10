@@ -1,0 +1,20 @@
+div.col-md-9 {
+    border-left: 6px solid dodgerblue;
+    /*height: 500px;*/
+}
+button.credit, button.debit {
+    width: 50%;
+}
+
+div.list-group-item {
+    cursor: pointer;
+    /*width: 350px;*/
+    /*height: 150px;*/
+    /*overflow: hidden;*/
+    /*background-size: cover;*/
+    /*background-position: center;*/
+    /*background-image: url("/src/App/static/210297132.jpg");*/
+    /*margin: 5px;*/
+    color: #496ebc;
+
+}
