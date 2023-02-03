@@ -15,6 +15,7 @@ export default class UserStore {
         this._selectedDebitCategory = {};
         this._selectedCreditCategory = {};
         this._creditBudget = 0;
+        this._debitTotal = 0;
         this._wallets = [
             {
                 id:1,
@@ -32,24 +33,33 @@ export default class UserStore {
         this._debit_categories = [
             {
                 id: 1,
-                name: "нерухомість",
-
-                img: "https://content1.rozetka.com.ua/goods/images/big/6863091.jpg"
+                name: "Оренда",
+                debitValue: 60000,
+                img: Bill
             },
             {
                 id: 2,
-                name: "депозит",
-                img: "https://content1.rozetka.com.ua/goods/images/big/6863091.jpg"
+                name: "Депозит",
+                debitValue: 2300,
+                img: Bill
             },
             {
                 id: 3,
-                name: "зарплата",
-                img: "https://content1.rozetka.com.ua/goods/images/big/6863091.jpg"
+                name: "Зарплата",
+                debitValue: 50000,
+                img: Bill
             },
             {
                 id: 4,
-                name: "премія",
-                img: "https://content1.rozetka.com.ua/goods/images/big/6863091.jpg"
+                name: "Премія",
+                debitValue: 4000,
+                img: Bill
+            },
+            {
+                id: 5,
+                name: "Дарунок",
+                debitValue: 20000,
+                img: Present
             },
         ];
 
@@ -162,7 +172,7 @@ export default class UserStore {
     }
 
     setSelectedCreditCategory(selectedCreditCategory) {
-        this._selectedDebitCategory = selectedCreditCategory;
+        this._selectedCreditCategory = selectedCreditCategory;
     }
 
     get creditBudget() {
@@ -172,8 +182,10 @@ export default class UserStore {
         return this._creditBudget
     }
 
-    // setSelectedCreditCategory(selectedCreditCategory) {
-    //     this._selectedDebitCategory = selectedCreditCategory;
-    // }
-
+    get debitTotal() {
+        this.debit_categories.map(category => {
+            return this._debitTotal += category.debitValue;
+        })
+        return this._debitTotal
+    }
 }

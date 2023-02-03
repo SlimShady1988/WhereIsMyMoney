@@ -26,6 +26,9 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
+
+    //Додати статік клас щоб створював тимчасовий гаманець, та кілька категорый для юзера. при створенні юзера
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -40,6 +43,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "img", nullable = false)
+    private String img;
+
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
@@ -53,10 +59,21 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Wallet> wallets = new ArrayList<>();
 
+    @JsonManagedReference
+    @ToString.Exclude
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CreditCategory> creditCategory;
+
+    @JsonManagedReference
+    @ToString.Exclude
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<DebitCategory> debitCategories;
+
     public void addWallet(Wallet wallet) {
         wallet.setUser(this);
         wallets.add(wallet);
     }
+
 
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @CreationTimestamp

@@ -2,52 +2,39 @@ package com.app.WhereIsMyMoney.service;
 
 import com.app.WhereIsMyMoney.dto.OperationDTO;
 import com.app.WhereIsMyMoney.entity.*;
-import com.app.WhereIsMyMoney.repository.OperationRepository;
+import com.app.WhereIsMyMoney.repository.DebitOperationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class OperationService {
-
-    private final OperationRepository operationRepository;
-    private final CategoryService categoryService;
+public class DebitOperationService implements DebitOperationServiceInterface {
+    private final DebitOperationRepository operationRepository;
+    private final DebitCategoryService categoryService;
     private final WalletService walletService;
-    private final ProductService productService;
-    private final TypeService typeService;
 
-    public OperationService(
-            OperationRepository operationRepository,
-            CategoryService categoryService,
-            WalletService walletService,
-            ProductService productService,
-            TypeService typeService
-    ) {
+    public DebitOperationService(
+            DebitOperationRepository operationRepository,
+            DebitCategoryService categoryService,
+            WalletService walletService) {
         this.operationRepository = operationRepository;
         this.categoryService = categoryService;
         this.walletService = walletService;
-        this.productService = productService;
-        this.typeService = typeService;
-
     }
 
-
-    public Operation findById(Long id) {
+    @Override
+    public DebitOperation findById(Long id) {
         return operationRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-
-    public List<Operation> getOperations(Map<String, Long> params) throws Exception {
+    @Override
+    public List<DebitOperation> getOperations(Map<String, Long> params) throws Exception {
         Wallet wallet = walletService.findById(params.get("wallet"));
         try {
             if (params.get("category") != null) {
-                Category category = categoryService.findById(params.get("category"));
+                DebitCategory category = categoryService.findById(params.get("category"));
                 return operationRepository.findAllByCategoryAndWallet(category, wallet);
-            }
-            if (params.get("type") != null) {
-                Type type = typeService.findById(params.get("type"));
-                return operationRepository.findAllByTypeAndWallet(type, wallet);
             }
             return operationRepository.findAllByWallet(wallet);
 
@@ -56,47 +43,50 @@ public class OperationService {
         }
     }
 
-    public Operation updateOperation(OperationDTO operation) {
-        Operation existedOperation = findById(operation.getId());
+    @Override
+    public DebitOperation updateOperation(OperationDTO operation) {
+        DebitOperation existedDebitOperation = findById(operation.getId());
         if(operation.getName() != null) {
-            existedOperation.setName(operation.getName());
+            existedDebitOperation.setName(operation.getName());
         }
         if(operation.getWallet() != null) {
             var wallet = walletService.findById(operation.getWallet());
-            existedOperation.setWallet(wallet);
+            existedDebitOperation.setWallet(wallet);
+        }
+        if(operation.getValue() != null) {
+            existedDebitOperation.setValue(operation.getValue());
         }
         if(operation.getCategory() != null) {
             var category = categoryService.findById(operation.getCategory());
-            existedOperation.setCategory(category);
+            existedDebitOperation.setCategory(category);
         }
 
-        return operationRepository.save(existedOperation);
+        return operationRepository.save(existedDebitOperation);
     }
 
-
+    @Override
     public void addOperation(OperationDTO operation) {
         try {
             var category = categoryService.findById(operation.getCategory());
-            var type = typeService.findById(operation.getType());
             var wallet = walletService.findById(operation.getWallet());
-            var value = productService.getValue(operation.getId());
-            Operation newOperation = new Operation();
-            newOperation.setWallet(wallet);
-            newOperation.setType(type);
-            newOperation.setCategory(category);
-            newOperation.setValue(value);
-            newOperation.setName(operation.getName());
+            var value = operation.getValue();
+            DebitOperation newDebitOperation = new DebitOperation();
+            newDebitOperation.setWallet(wallet);
+            newDebitOperation.setCategory(category);
+            newDebitOperation.setValue(value);
+            newDebitOperation.setName(operation.getName());
 
-            operationRepository.save(newOperation);
+            operationRepository.save(newDebitOperation);
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public void deleteOperation(Operation operation) throws Exception {
+    @Override
+    public void deleteOperation(DebitOperation debitOperation) throws Exception {
         try {
-            operationRepository.delete(operation);
+            operationRepository.delete(debitOperation);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

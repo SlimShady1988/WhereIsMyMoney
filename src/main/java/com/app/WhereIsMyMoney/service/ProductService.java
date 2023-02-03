@@ -5,28 +5,18 @@ import com.app.WhereIsMyMoney.entity.*;
 import com.app.WhereIsMyMoney.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class ProductService {
-
     private final ProductRepository productRepository;
-//    private final CategoryService categoryService;
-    private final OperationService operationService;
-    private final TypeService typeService;
+    private final CreditOperationService operationService;
 
-    public ProductService(
-            ProductRepository productRepository,
-            CategoryService categoryService,
-            OperationService operationService,
-            TypeService typeService
-    ) {
+    public ProductService(ProductRepository productRepository, CreditOperationService operationService) {
         this.productRepository = productRepository;
-//        this.categoryService = categoryService;
         this.operationService = operationService;
-        this.typeService = typeService;
-
     }
 
 
@@ -35,20 +25,28 @@ public class ProductService {
     }
 
 
-    public List<Product> getProducts(Long id) throws Exception {
+    public List<Product> getProducts(Long operationId) throws Exception {
         try {
-            Operation operation = operationService.findById(id);
-            return productRepository.findProductsByOperation(operation);
+            CreditOperation creditOperation = operationService.findById(operationId);
+            return productRepository.findProductsByOperation(creditOperation);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
 
     }
 
-    public Float getValue(Long id) throws Exception {
-        List<Product> products = getProducts(id);
-        AtomicReference<Float> value = new AtomicReference<>(0F);
-        products.stream().map(product -> value.updateAndGet(v -> v + product.getSum()));
+//    public BigDecimal getValue(Long id) throws Exception {
+//        List<Product> products = getProducts(id);
+//        AtomicReference<Float> value = new AtomicReference<>(0F);
+//        products.stream().map(product -> value.updateAndGet(v -> v + product.getSum()));
+//
+//        return value.get();
+//    }
+
+    public BigDecimal getValue(Long operationId) throws Exception {
+        List<Product> products = getProducts(operationId);
+        AtomicReference<BigDecimal> value = new AtomicReference<>(new BigDecimal(0));
+        products.stream().map(product -> value.updateAndGet(v -> v.add(product.getSum())));
         return value.get();
     }
 
@@ -57,6 +55,7 @@ public class ProductService {
         try {
 //            var category = categoryService.findById(productDTO.getCategory());
             var operation = operationService.findById(productDTO.getOperation());
+            operation.setValue(getValue(productDTO.getId()));
             Product product = new Product();
 //            product.setCategory(category);
             product.setName(productDTO.getName());
@@ -79,10 +78,10 @@ public class ProductService {
 
     public Product updateProduct(ProductDTO productDTO) {
         Product product = findById(productDTO.getId());
-        if (productDTO.getCategory() != null) {
+//        if (productDTO.getCategory() != null) {
 //            var category = categoryService.findById(productDTO.getCategory());
 //            product.setCategory(category);
-        }
+//        }
         if (productDTO.getOperation() != null) {
             var operation = operationService.findById(productDTO.getOperation());
             product.setOperation(operation);

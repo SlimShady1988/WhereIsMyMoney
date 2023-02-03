@@ -4,38 +4,67 @@ import UserContext, {OperationContext} from "../context";
 import {Card, Col, Container, ListGroup, Row} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 import "../pages/style/operations.css"
-import WalletImg from "../static/210297132.png";
+// import WalletImg from "../static/210297132.png";
 
 const OperationList = observer((props) => {
     const operation  = props.operation;
+    const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     return (
-        <Container style={{padding: 0}}>
-                <div  className="mt-2 d-flex">
+        <Container>
+                <div  className="d-flex">
                 <Card style={{width: '100%'}}>
-                    <Card.Body className={ operation.type % 2 === 0 ? "debit" : "credit"}>
-                        <Card.Title>{operation.name}</Card.Title>
+                    <Card.Body className={ operation.type === 2 ? "debit" : "credit"}>
+                        <Card.Title>
+                            <Row>
+                                <Col>
+                                    {operation.name}
+                                </Col>
+                                {operation.type === 1
+                                    ?
+                                    <Col className="d-flex justify-content-end" style={{color: "red"}}>
+                                        - {operation.value}
+                                    </Col>
+                                    :
+                                    <Col className="d-flex justify-content-end" style={{color: "blue"}}>
+                                        + {operation.value}
+                                    </Col>
+                                }
+                            </Row>
+
+                        </Card.Title>
                         <Row>
-                            <Col>
-                                <Card.Text>
-                                    {operation.value}
-                                </Card.Text>
-                            </Col>
-                            <Col>
-                                <Card.Text>
-                                    Date
-                                </Card.Text>
-                            </Col>
+                            <Card.Text className="d-flex justify-content-end">
+                                {operation.date.toLocaleDateString('uk-UK', options)}
+                            </Card.Text>
                         </Row>
                     </Card.Body>
-                    <hr/>
+                    {operation.type === 1 &&
+                        <div>
+                    <hr className="description"/>
                     <Accordion>
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>Детальніше</Accordion.Header>
+                        <Accordion.Item eventKey="0" >
+                            <Accordion.Header style={{borderRadius: '0 0 5px 5px'}}><b>Детальніше</b></Accordion.Header>
                             <Accordion.Body>
                                 <ListGroup>
+                                    <ListGroup.Item>
+                                        <Row >
+                                            <Col>
+                                                Продукт
+                                            </Col>
+                                            <Col>
+                                                Ціна
+                                            </Col>
+                                            <Col>
+                                                Кількість
+                                            </Col>
+                                            <Col>
+                                                Сума
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
                                     {operation.items.map(product=>
                                         <ListGroup.Item key={product.id}>
-                                            <Row className="" style={{display: "initial"}}>
+                                            <Row className="" >
                                                 <Col>
                                                     {product.name}
                                                 </Col>
@@ -57,6 +86,8 @@ const OperationList = observer((props) => {
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
+                        </div>
+                    }
                 </Card>
             </div>
         </Container>

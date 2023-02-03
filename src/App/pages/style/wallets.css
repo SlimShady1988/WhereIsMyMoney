@@ -16,5 +16,7 @@ div.list-group-item {
     /*background-image: url("/src/App/static/210297132.jpg");*/
     /*margin: 5px;*/
     color: #496ebc;
-
+}
+div.card {
+    cursor: unset;
 }

@@ -57,7 +57,7 @@ public class WalletController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> addWallet(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<?> deleteWallet(@PathVariable("id") Long id) throws Exception {
         Wallet wallet = walletService.findById(id);
         walletService.deleteWallet(wallet);
         return ResponseEntity.ok().body(new MessageResponse("Wallet was successfully deleted"));

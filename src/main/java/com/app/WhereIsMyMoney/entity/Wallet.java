@@ -29,19 +29,14 @@ public class Wallet {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "img", nullable = false)
+    private String img;
+
     @JsonBackReference
     @ToString.Exclude
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "wallets_persons_fk"))
     @ManyToOne(optional = false)
     private User user;
-
-//    @JsonManagedReference
-//    @ToString.Exclude
-//    @ManyToMany(
-//            mappedBy = "wallets",
-//            fetch = FetchType.LAZY,
-//            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    private Collection<Type> types;
 
     @JsonManagedReference
     @ToString.Exclude
@@ -50,7 +45,16 @@ public class Wallet {
             mappedBy = "wallet",
             cascade = CascadeType.ALL
     )
-    private List<Operation> operations = new ArrayList<>();
+    private List<CreditOperation> creditOperations = new ArrayList<>();
+
+    @JsonManagedReference
+    @ToString.Exclude
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "wallet",
+            cascade = CascadeType.ALL
+    )
+    private List<DebitOperation> debitOperations = new ArrayList<>();
 
 ////    @Temporal(TemporalType.TIMESTAMP)
 //    @CreationTimestamp

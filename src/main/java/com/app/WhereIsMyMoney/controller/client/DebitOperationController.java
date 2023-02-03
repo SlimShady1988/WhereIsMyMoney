@@ -2,8 +2,8 @@ package com.app.WhereIsMyMoney.controller.client;
 
 import com.app.WhereIsMyMoney.dto.MessageResponse;
 import com.app.WhereIsMyMoney.dto.OperationDTO;
-import com.app.WhereIsMyMoney.entity.Operation;
-import com.app.WhereIsMyMoney.service.OperationService;
+import com.app.WhereIsMyMoney.entity.DebitOperation;
+import com.app.WhereIsMyMoney.service.DebitOperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -12,23 +12,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/operations")
-public class OperationController {
-    private final OperationService operationService;
+@RequestMapping("operations/debit")
+public class DebitOperationController {
+    private final DebitOperationService operationService;
     @Autowired
-    public OperationController(OperationService operationService) {
+    public DebitOperationController(DebitOperationService operationService) {
         this.operationService = operationService;
     }
 
     @GetMapping("/list")
     public ResponseEntity<?> getOperationsForPeriod(
             @RequestParam(required = false, name = "walletId") Long walletId,
-            @RequestParam(required = false, name = "typeId") Long typeId,
             @RequestParam(required = false, name = "categoryId") Long categoryId
             ) throws Exception {
         Map<String, Long> params = new HashMap<>();
         params.put("wallet", walletId);
-        params.put("type", typeId);
         params.put("category", categoryId);
         var operations = operationService.getOperations(params);
 
@@ -62,10 +60,10 @@ public class OperationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOperation(@PathVariable ("id") Long id) throws Exception {
-        Operation operation = operationService.findById(id);
-        operationService.deleteOperation(operation);
+        DebitOperation debitOperation = operationService.findById(id);
+        operationService.deleteOperation(debitOperation);
 
         return ResponseEntity.ok().body(
-                new MessageResponse(String.format("Operation '%s' was successfully deleted", operation.getName())));
+                new MessageResponse(String.format("Operation '%s' was successfully deleted", debitOperation.getName())));
     }
 }

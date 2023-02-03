@@ -3,6 +3,7 @@ package com.app.WhereIsMyMoney.service;
 import com.app.WhereIsMyMoney.dto.UserDTO;
 import com.app.WhereIsMyMoney.entity.Role;
 import com.app.WhereIsMyMoney.entity.User;
+import com.app.WhereIsMyMoney.entity.Wallet;
 import com.app.WhereIsMyMoney.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,13 +48,16 @@ public class UserService {
 
         userRepository.save(existedUser);
     }
-    public void deleteUser(User user) throws Exception {
-        try {
-            userRepository.delete(user);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
+
+//    public void getWalletsByUser(Long id, UserDTO user) {
+//
+//        public void deleteUser(User user) throws Exception {
+//        try {
+//            userRepository.delete(user);
+//        } catch (Exception e) {
+//            throw new Exception(e.getMessage());
+//        }
+//    }
 
     public void buildAndSaveUser(
             String username,
@@ -67,6 +71,9 @@ public class UserService {
             user.setEmail(email);
             user.setPassword(passwordEncoder.encode(password));
             user.setRoles(roles);
+            var wallet = new Wallet();
+            wallet.setName("temporary");
+            user.addWallet(wallet);
 
             userRepository.save(user);
 
@@ -74,6 +81,14 @@ public class UserService {
             throw new Exception(e.getMessage());
         }
 
+    }
+
+    public void deleteUser(User user) throws Exception {
+        try{
+            userRepository.delete(user);
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
 }

@@ -6,7 +6,7 @@ import {
     REGISTRATION_ROUTE,
     CATEGORY_ROUTE,
     PRODUCT_ROUTE,
-    OPERATION_ROUTE,
+    OPERATIONS_ROUTE,
     ABOUT_ROUTE,
     CATEGORIES_ROUTE,
     WALLETS_ROUTE
@@ -16,12 +16,12 @@ import Profile from "./pages/Profile";
 import Product from "./pages/Product";
 import Categories from "./pages/Categories";
 import Wallets from "./pages/Wallets";
-import Operation from "./pages/Operations";
 import Auth from "./pages/Auth";
 import About from "./pages/About";
-import CategoryItem from "./components/CategoryItem";
+// import CategoryItem from "./components/CategoryItem";
 import Wallet from "./pages/Wallet";
 import Category from "./pages/Category";
+import Operations from "./pages/Operations";
 
 export const adminRoutes = [
     {path:'ADMIN_ROUTE', Component: AdminDashboard}
@@ -34,7 +34,7 @@ export const authRoutes = [
     {path: CATEGORY_ROUTE + '/:id', Component: Category},
     {path: CATEGORIES_ROUTE, Component: Categories},
     {path: PRODUCT_ROUTE, Component: Product},
-    {path: OPERATION_ROUTE, Component: Operation},
+    {path: OPERATIONS_ROUTE, Component: Operations},
 ]
 
 export const publicRoutes = [

@@ -1,85 +1,45 @@
 import React, {useContext} from 'react';
 import {observer} from "mobx-react-lite";
-import UserContext, {OperationContext} from "../context";
 import {Card, Col, Container, ListGroup, Row} from "react-bootstrap";
-import Accordion from "react-bootstrap/Accordion";
 import "../pages/style/operations.css"
 
-const OperationsByWallet = observer(() => {
+const OperationsByWallet = observer((props) => {
     // const {user} = useContext(UserContext)
-    const {operation} = useContext(UserContext)
+    // const {operation} = useContext(UserContext)
+    const operation  = props.operation;
+    const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+
 
     return (
 
         <Container style={{padding: 0}}>
-            <div className="mt-2 d-flex justify-content-end">
+                <div className={ operation.type === 2 ? "mt-2 d-flex justify-content-end" : "mt-2 d-flex "}>
                 <Card style={{width: '50%'}}>
-                    <Card.Body className="debit">
-                        <Card.Title>Operation Name</Card.Title>
+                    <Card.Body className={ operation.type === 2 ? "debit" : "credit"}>
+                        <Card.Title>
+                            <Row>
+                                <Col>
+                                    {operation.name}
+                                </Col>
+                                {operation.type === 1
+                                    ?
+                                    <Col className="d-flex justify-content-end" style={{color: "red"}}>
+                                        - {operation.value}
+                                    </Col>
+                                    :
+                                    <Col className="d-flex justify-content-end" style={{color: "blue"}}>
+                                        + {operation.value}
+                                    </Col>
+                                }
+                            </Row>
+                        </Card.Title>
                         <Row>
-                            <Col>
-                                <Card.Text>
-                                    Operation sum
-                                </Card.Text>
-                            </Col>
-                            <Col>
-                                <Card.Text>
-                                    Date
-                                </Card.Text>
-                            </Col>
+                            <Card.Text className="d-flex justify-content-end">
+                                {operation.date.toLocaleDateString('uk-UK', options)}
+                            </Card.Text>
                         </Row>
                     </Card.Body>
-                    <hr/>
-                    <Accordion>
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>Детальніше</Accordion.Header>
-                            <Accordion.Body>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                culpa qui officia deserunt mollit anim id est laborum.
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
-                </Card>
-            </div>
 
-            <div className="mt-2 d-flex">
-                <Card style={{width: '50%'}}>
-                    <Card.Body className="credit">
-                        <Card.Title>Operation Name</Card.Title>
-                        <Row>
-                            <Col>
-                                <Card.Text>
-                                    Operation sum
-                                </Card.Text>
-                            </Col>
-                            <Col>
-                                <Card.Text>
-                                    Date
-                                </Card.Text>
-                            </Col>
-
-                        </Row>
-                    </Card.Body>
-                    <hr/>
-                    <Accordion>
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>Детальніше</Accordion.Header>
-                            <Accordion.Body>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                culpa qui officia deserunt mollit anim id est laborum.
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
                 </Card>
             </div>
 

@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ public class Product {
     private String name;
 
     @Column(name = "price")
-    private Float price;
+    private BigDecimal price;
 
     @Column(name = "number_of_items")
-    private Integer numberOfItems;
+    private BigDecimal numberOfItems;
 
     @Column(name = "sum")
-    private Float sum;
+    private BigDecimal sum;
 
 //    @JsonBackReference
 //    @ToString.Exclude
@@ -49,23 +50,29 @@ public class Product {
 //    )
 //    private List<Operation> operations = new ArrayList<>();
 
+//    @JsonBackReference
+//    @ToString.Exclude
+//    @ManyToOne
+//    @JoinColumn(name = "operation_id", foreignKey = @ForeignKey(name = "operations_categories_fk"))
+//    private Operation operation;
+
     @JsonBackReference
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "operation_id", foreignKey = @ForeignKey(name = "operations_categories_fk"))
-    private Operation operation;
+    private CreditOperation operation;
 
-    public void setNumberOfItems(Integer numberOfItems) {
-        this.numberOfItems = numberOfItems != null ? numberOfItems : 1;
+    public void setNumberOfItems(BigDecimal numberOfItems) {
+        this.numberOfItems = numberOfItems != null ? numberOfItems : new BigDecimal(1);
     }
 
-    public void setPrice(Float price) {
-        this.price = price != null ? price : 0;
+    public void setPrice(BigDecimal price) {
+        this.price = price != null ? price : new BigDecimal(0);
     }
     public void setSum() {
-        this.sum = price * numberOfItems;
+        this.sum = price.multiply(numberOfItems);
     }
-    public void setSum(Float sum) {
+    public void setSum(BigDecimal sum) {
         this.sum = sum;
     }
 
