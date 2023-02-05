@@ -1,19 +1,31 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Dropdown, Form, Modal, Table} from "react-bootstrap";
+import {Button, Col, Dropdown, Form, Modal, Row, Table} from "react-bootstrap";
 import "../../pages/style/hide_spinner.css"
 import UserContext from "../../context";
 
-const CreateCreditOperationModal = ({show, onHide}) => {
+const CreateCreditOperationModal = ({show, onHide, data}) => {
+    // const options = {year: "numeric", month: 'long', day: 'numeric' };
     const {user} = useContext(UserContext)
     const [goods, setGoods] = useState([])
     const [table, setTable] = useState([])
-    const [math, setMath] = useState([document.querySelectorAll('.amount-value')])
+    const [controlDivs, setControlDivs] = useState([document.querySelectorAll('.amount-value')])
     const [amount, setAmount] = useState(0)
-    let number = 1;
+    let title = data.inPlan === false ? "Що пішло - того не вернеш" : "Планую купити"
 
     const addGoods = () => {
         setTable(['№', 'Назва товару', 'Ціна товару', 'Кількість товару', 'Сума товару'])
-        setGoods([...goods, {title:'', price: 0, count: 1, value: 0}])
+        setGoods([...goods, {title: '', price: 0, count: 1, value: 0, date: Date.now()}])
+    }
+
+    const removeGoods = (date) => {
+        setGoods(goods.filter((e) =>
+            e.date !== date
+        ));
+        if (goods.length <= 1) {
+            setTable([])
+        }
+        setControlDivs([...controlDivs])
+
     }
 
     function checkSum(e, number) {
@@ -33,7 +45,7 @@ const CreateCreditOperationModal = ({show, onHide}) => {
             $sum.value = '';
             $count.setAttribute('disabled', '')
         }
-        setMath([...math]);
+        setControlDivs([...controlDivs]);
         return undefined;
     }
 
@@ -50,7 +62,7 @@ const CreateCreditOperationModal = ({show, onHide}) => {
             $count.value = '';
             $price.removeAttribute('disabled')
         }
-        setMath([...math])
+        setControlDivs([...controlDivs])
     }
 
     useEffect(() => {
@@ -59,21 +71,25 @@ const CreateCreditOperationModal = ({show, onHide}) => {
         for (let i = 0; i < $sum.length; i++) {
             a += Number($sum.item(i).value);
         }
+        let total = document.querySelector('.total-amount');
         if ($sum.length > 0) {
-            let total = document.querySelector('.total-amount');
             total.setAttribute('disabled', '');
             total.value = a;
+        } else {
+            if (total !== null && total.hasAttribute('disabled')) {
+                total.removeAttribute('disabled');
+                total.value = 0;
+            }
         }
+
         setAmount(a)
 
-    }, [math])
+    }, [controlDivs])
 
     function checkCount(e, number) {
         e = Number.parseFloat(Number(e));
-        // let $count = document.querySelector('#data-count-'+number);
         let $price = document.querySelector('#data-price-'+number);
         let $sum = document.querySelector('#data-sum-'+number);
-        // if (Number.parseFloat(Number(e)) > 0)  {
         if (e > 0)  {
             $sum.value = e * $price.value;
 
@@ -83,7 +99,7 @@ const CreateCreditOperationModal = ({show, onHide}) => {
                 $sum.value = $price.value;
             }
         }
-        setMath([...math])
+        setControlDivs([...controlDivs])
 
         return undefined;
     }
@@ -92,10 +108,12 @@ const CreateCreditOperationModal = ({show, onHide}) => {
         <div>
             <Modal size="lg" show={show} onHide={onHide}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Що пішло - того не вернеш</Modal.Title>
+                    <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
+                        <Row>
+                            <Col md={6}>
                         <Dropdown className="mb-3">
                             <Dropdown.Toggle>Виберіть заначку</Dropdown.Toggle>
                             <Dropdown.Menu>
@@ -104,7 +122,12 @@ const CreateCreditOperationModal = ({show, onHide}) => {
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
+                            </Col>
 
+                            <Col md={6}>
+                                {data.date}
+                            </Col>
+                        </Row>
                         <Dropdown className="mb-3">
                             <Dropdown.Toggle>Виберіть категорію</Dropdown.Toggle>
                             <Dropdown.Menu>
@@ -120,58 +143,72 @@ const CreateCreditOperationModal = ({show, onHide}) => {
                             type="input"
                             placeholder="Наприклад: сільпо ... д.н. коханки..."
                             autoFocus/>
-                        <Form.Label>Сума</Form.Label>
-                        <Form.Control className="mb-3 no-spinner total-amount" type="number" placeholder={amount}/>
+                        {data.inPlan === false &&
+                            <>
+                                <Form.Label>Сума</Form.Label>
+                                <Form.Control className="mb-3 no-spinner total-amount" type="number" placeholder={amount}/>
+                            </>
+                        }
                         <Button className="mb-3" variant={"outline-info"}
                                 onClick={addGoods}> Додати товар</Button>
+
                         <Table striped bordered hover>
                             <thead>
-                            <tr>
+                            {data.inPlan === false &&
+                                <tr>
                                 {table.map(title => <th key={title}>{title}</th>)}
-                            </tr>
+                                </tr>
+                            }
                             </thead>
                             <tbody>
-                            {goods.map(() =>
-                                <tr key={'key'+number++}>
+                            {goods.map((e, i) =>
+                                <tr key={e.date}>
                                     <td>
-                                        {number}
+                                        {i+1}
                                     </td>
                                     <td width="60%">
-                                        <Form.Control type="input" placeholder=""/>
+                                        <Form.Control type="input" placeholder="Назва товару"/>
                                     </td>
-                                    <td width="15%">
-                                        <Form.Control className="no-spinner"
-                                                      type="number"
-                                                      id={'data-price-'+number} data-price={number}
-                                                      onChange={(e) => checkSum(e.target.value, e.target.dataset.price)}/>
-                                    </td>
-                                    <td width="10%">
-                                        <Form.Control className="no-spinner"
-                                                      type="number"
-                                                      disabled
-                                                      id={'data-count-'+number} data-count={number}
-                                                      onChange={(e) => checkCount(e.target.value, e.target.dataset.count)}/>
-                                    </td>
-                                    <td width="15%">
-                                        <Form.Control className="no-spinner amount-value"
-                                                      type="number"
-                                                      id={'data-sum-'+number}
-                                                      data-sum={number}
-                                                      onChange={(e) => setSum(e.target.value, e.target.dataset.sum)}/>
-                                    </td>
-                                    <td>
-                                        <Button variant={"outline-danger"}>Видалити</Button>
+
+                                    {data.inPlan === false &&
+                                        <>
+                                            <td width="15%">
+                                                <Form.Control className="no-spinner"
+                                                              type="number"
+                                                              id={'data-price-' + i} data-price={i}
+                                                              onChange={(e) =>
+                                                                  checkSum(e.target.value, e.target.dataset.price)}/>
+                                            </td>
+                                            <td width="10%">
+                                                <Form.Control className="no-spinner"
+                                                              type="number"
+                                                              disabled
+                                                              id={'data-count-' + i} data-count={i}
+                                                              onChange={(e) =>
+                                                                  checkCount(e.target.value, e.target.dataset.count)}/>
+                                            </td>
+                                            <td width="15%">
+                                                <Form.Control className="no-spinner amount-value"
+                                                              type="number"
+                                                              id={'data-sum-' + i}
+                                                              data-sum={i}
+                                                              onChange={(e) =>
+                                                                  setSum(e.target.value, e.target.dataset.sum)}/>
+                                            </td>
+                                        </>
+                                    }
+                                    <td className="d-flex justify-content-center">
+                                        <Button onClick={() => removeGoods(e.date)} variant={"outline-danger"}>Видалити</Button>
                                     </td>
                                 </tr>
-                            )
-                            }
+                            )}
                             </tbody>
                         </Table>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={onHide}>Закрити</Button>
-                    <Button variant="primary" onClick={onHide}>Додати</Button>
+                    <Button variant="primary" onClick={onHide}>{data.inPlan === false ? 'Додати' : 'Запланувати' }</Button>
                 </Modal.Footer>
             </Modal>
         </div>

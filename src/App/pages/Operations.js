@@ -1,35 +1,33 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Button, Dropdown, Col, Container, DropdownButton, Row} from "react-bootstrap";
 import OperationList from "../components/OperationList";
 import "../pages/style/operations.css"
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import CreateWalletModal from "../components/modals/CreateWalletModal";
 import CreateCreditOperationModal from "../components/modals/CreateCreditOperationModal";
-import OperationsByWallet from "../components/OperationsByWallet";
-import CreateCreditCategoryModal from "../components/modals/CreateCreditCategoryModal";
-import CreateDebitCategoryModal from "../components/modals/CreateDebitCategoryModal";
 import CreateDebitOperationModal from "../components/modals/CreateDebitOperationModal";
 
 const Operations = observer(() => {
     const options = {year: "numeric", month: 'long', day: 'numeric' };
-    // const {operation} = useContext(UserContext);
-    const [startDate, setStartDate] = useState(new Date());
+    let selectedDate= new Date().toLocaleDateString('uk-UK', options);
+
     const [creditOperationModalVisible, setCreditOperationModalVisible] = useState(false);
     const [debitOperationModalVisible, setDebitOperationModalVisible] = useState(false);
-
     const [value, setValue] = useState(new Date());
+    const [dateAndPlan, setDateAndPlan] = useState(    {date: value, inPlan: false });
 
-    let selectedDate= new Date().toLocaleDateString('uk-UK', options);
-    function setNewDate (operation) {
-        selectedDate = operation;
+    function setNewDate (operationDate) {
+        selectedDate = operationDate;
         return null;
     }
 
+    // useEffect(() => {
+    //     setValue(value);
+    // },)
 
-/*Получені з БД операцыъ треба змерджити в 1 масив тому що не будуть операції сортуватись
- по сторонах якщо зробити 2 різні колонки в гаманцю, або не буде точної сортування по даті, якщо на сторінці операцій*/
+/* Отримані з БД операції треба змерджити в 1 масив тому що не будуть операції сортуватись
+ по сторонах якщо зробити 2 різні колонки в гаманцю, або не буде точного сортування по даті, якщо на сторінці операцій*/
     const operations = [
         {id: 1, type:1, name: "Покупки їди", value: 190, date: new Date(2022,10,23,11,25,26),
             items: [
@@ -52,21 +50,28 @@ const Operations = observer(() => {
     ];
 
 
+    const openCreditModal = (plan) => {
+        const newState = {date: value.toLocaleDateString('uk-UK', options), inPlan: plan};
+        setDateAndPlan(newState);
+        setCreditOperationModalVisible(true);
+        return undefined;
+    };
+
     return (
         <Container>
             <Row className="mt-2">
                 <Col md={4}>
-                        <h3 style={{textAlign: "center"}}>Період</h3>
-                        <Row className="d-flex flex-column m-3">
-                            <Calendar locale = {"uk-Uk"} onChange={setValue} value={value}/>
-                        </Row>
-                    <Row style={{ borderBottom: "6px solid dodgerblue"}}></Row>
-                    <Col>
-                        <h3 style={{textAlign: "center"}}>Хочу купити <br/>
-                            {value.toLocaleDateString('uk-UK', options)}:</h3>
+                    <h3 style={{textAlign: "center"}}>Період</h3>
+                    <Row className="d-flex flex-column m-3">
+                        <Calendar locale={"uk-Uk"} onChange={setValue} value={value}/></Row>
+                    <Row style={{borderBottom: "6px solid dodgerblue"}}></Row>
+                    <h3 style={{textAlign: "center"}}>Хочу купити <br/>
+                            {value.toLocaleDateString('uk-UK', options)}</h3>
+                    <Button onClick={() => openCreditModal(true)}
+                                className="mt-2">Додати заплановану покупку</Button>
+                    <hr/>
 
-                        <Button className="mt-2">Додати заплановану покупку</Button>
-                    </Col>
+
                 </Col>
 
 
@@ -74,7 +79,7 @@ const Operations = observer(() => {
                         <Row>
                             <Col className="d-flex" md={3}>
                                 <Button className="led-blink-credit"
-                                        onClick={()=>setCreditOperationModalVisible(true)}>Пішло як в землю
+                                        onClick={() => openCreditModal(false)}>Пішло як в землю
                                 </Button>
                             </Col>
                             <Col md={6}>
@@ -113,7 +118,7 @@ const Operations = observer(() => {
                                 }
                             </>
                         )}
-                    <CreateCreditOperationModal show={creditOperationModalVisible} onHide={() => setCreditOperationModalVisible(false)}/>
+                    <CreateCreditOperationModal data={dateAndPlan} show={creditOperationModalVisible} onHide={() => setCreditOperationModalVisible(false)}/>
                     <CreateDebitOperationModal show={debitOperationModalVisible} onHide={() => setDebitOperationModalVisible(false)}/>
 
                 </Col>
