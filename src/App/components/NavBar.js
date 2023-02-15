@@ -18,15 +18,10 @@ const NavBar = observer(() => {
     const {user} = useContext(UserContext);
     const navigate = useNavigate();
 
-
     const logout = () => {
         user.setUser({})
         user.setIsAuth(false)
-        // if (process.env.REACT_APP_API_URL.endsWith("8080/")){
-        //     navigate(LOGOUT_ROUTE)
-        // } else {
-            navigate(ABOUT_ROUTE)
-        // }
+        navigate(ABOUT_ROUTE)
     }
     return(
         <Navbar bg="primary" variant="dark">
@@ -54,13 +49,9 @@ const NavBar = observer(() => {
                             <Dropdown.Divider />
                             <Dropdown.Item onClick={() => logout()} variant={"outline-light"} > Вихід</Dropdown.Item>
                         </DropdownButton>
-
-
-
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{color: "white"}}>
-                        {/*<Button onClick={() => navigate(ABOUT_ROUTE)} variant={"outline-light"}>Огляд</Button>*/}
                         <Button className={"ms-3"}
                                 variant={"outline-light"}
                                 onClick={() => navigate(LOGIN_ROUTE)}>Увійти</Button>

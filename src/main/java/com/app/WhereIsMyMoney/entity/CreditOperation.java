@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -37,6 +38,10 @@ public class CreditOperation extends BaseOperation implements Operation, Credit 
             mappedBy = "operation",
             cascade = CascadeType.ALL)
     private List<Product> products;
+
+    @Column(name = "status", nullable = false)
+    @ColumnDefault("done")
+    private String status;
 
 
 

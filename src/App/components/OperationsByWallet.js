@@ -9,12 +9,10 @@ const OperationsByWallet = observer((props) => {
     const operation  = props.operation;
     const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
 
-
     return (
-
         <Container style={{padding: 0}}>
                 <div className={ operation.type === 2 ? "mt-2 d-flex justify-content-end" : "mt-2 d-flex "}>
-                <Card style={{width: '50%'}}>
+                <Card className={ operation.type === 2 ? "debit" : "credit"} style={{width: '50%'}}>
                     <Card.Body className={ operation.type === 2 ? "debit" : "credit"}>
                         <Card.Title>
                             <Row>
@@ -27,7 +25,7 @@ const OperationsByWallet = observer((props) => {
                                         - {operation.value}
                                     </Col>
                                     :
-                                    <Col className="d-flex justify-content-end" style={{color: "blue"}}>
+                                    <Col className="d-flex justify-content-end" style={{color: "green"}}>
                                         + {operation.value}
                                     </Col>
                                 }

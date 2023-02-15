@@ -7,7 +7,7 @@ import WalletImg from "../../App/static/210297132.png";
 const WalletSidebar = observer(() => {
     const {user} = useContext(UserContext)
     return (
-        <ListGroup>
+        <ListGroup className="my-3">
             {user.wallets.map(wallet=>
                 <ListGroup.Item
                     active={wallet.id === user.selectedWallet.id}
@@ -21,7 +21,6 @@ const WalletSidebar = observer(() => {
 
                 </ListGroup.Item>
             )}
-
         </ListGroup>
     )
 });

@@ -9,8 +9,11 @@ import {
     OPERATIONS_ROUTE,
     ABOUT_ROUTE,
     CATEGORIES_ROUTE,
+    CREDIT_OPERATION_ROUTE,
+    DEBIT_OPERATION_ROUTE,
     WALLETS_ROUTE
 } from "./utils/consts";
+
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import Product from "./pages/Product";
@@ -22,6 +25,8 @@ import About from "./pages/About";
 import Wallet from "./pages/Wallet";
 import Category from "./pages/Category";
 import Operations from "./pages/Operations";
+import CreditOperation from "./pages/CreditOperation";
+import DebitOperation from "./pages/DebitOperation";
 
 export const adminRoutes = [
     {path:'ADMIN_ROUTE', Component: AdminDashboard}
@@ -35,6 +40,9 @@ export const authRoutes = [
     {path: CATEGORIES_ROUTE, Component: Categories},
     {path: PRODUCT_ROUTE, Component: Product},
     {path: OPERATIONS_ROUTE, Component: Operations},
+    {path: CREDIT_OPERATION_ROUTE + '/:id', Component: CreditOperation},
+    {path: DEBIT_OPERATION_ROUTE + '/:id', Component: DebitOperation},
+
 ]
 
 export const publicRoutes = [

@@ -176,15 +176,17 @@ export default class UserStore {
     }
 
     get creditBudget() {
+        this._creditBudget = 0
         this.credit_categories.map(category => {
-             return this._creditBudget += category.budget;
+             this._creditBudget += category.budget;
         })
         return this._creditBudget
     }
 
     get debitTotal() {
+        this._debitTotal = 0
         this.debit_categories.map(category => {
-            return this._debitTotal += category.debitValue;
+            this._debitTotal += category.debitValue;
         })
         return this._debitTotal
     }

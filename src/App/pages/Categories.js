@@ -9,8 +9,6 @@ import "../pages/style/hide_spinner.css"
 import CreateCreditCategoryModal from "../components/modals/CreateCreditCategoryModal";
 import CreateDebitCategoryModal from "../components/modals/CreateDebitCategoryModal";
 
-window.dispatchEvent(new Event('resize'));
-
 const Categories = observer(() => {
     const {user} = useContext(UserContext)
     const [radioValue, setRadioValue] = useState('1');
@@ -20,14 +18,8 @@ const Categories = observer(() => {
     const [debitCategoryModalVisible, setDebitCategoryModalVisible] = useState(false);
     const [creditCategoryModalVisible, setCreditCategoryModalVisible] = useState(false);
 
-    // let creditCategories = [];
-    // let debitCategories = [];
     let creditBudget = user.creditBudget;
     let debitTotal = user.debitTotal;
-    // let creditPercents = [];
-    // let debitPercents = [];
-    // let creditLabels = [];
-    // let debitLabels = [];
 
     useEffect(() => {
         createCreditCategories()
@@ -38,18 +30,16 @@ const Categories = observer(() => {
         { name: 'Прийшло', value: '2' },
     ];
 
-    function changeCategoryList(value) {
+    const changeCategoryList = (value) => {
         setRadioValue(value);
         if (value === "1") {
             createCreditCategories();
         } else  {
             createDebitCategories();
         }
-
-
     }
 
-    function createDebitCategories() {
+    const createDebitCategories = () => {
         let categories = [];
         let labels = [];
         let percents = [];
@@ -57,6 +47,7 @@ const Categories = observer(() => {
                 let cPercent = Math.round((category.debitValue * 100 / debitTotal) * 100) / 100;
                 percents.push(cPercent);
                 labels.push(category.name)
+
                 return  categories.push({
                     id: category.id,
                     name: category.name,
@@ -68,17 +59,17 @@ const Categories = observer(() => {
         setCategories(categories);
         setLabels(labels)
         setPercents(percents);
-
     }
 
-    function createCreditCategories() {
+    const createCreditCategories = () => {
         let categories = [];
         let labels = [];
         let percents = [];
         user.credit_categories.map(category => {
-                let cPercent = Math.round((category.budget * 100 / creditBudget) * 100) / 100;
-                percents.push(cPercent);
+            let cPercent = Math.round((category.budget * 100 / creditBudget) * 100) / 100;
+            percents.push(cPercent);
                 labels.push(category.name)
+
                 return  categories.push({
                     id: category.id,
                     name: category.name,
@@ -144,13 +135,10 @@ const Categories = observer(() => {
 
                     <CreateCreditCategoryModal show={creditCategoryModalVisible} onHide={() => setCreditCategoryModalVisible(false)}/>
                     <CreateDebitCategoryModal show={debitCategoryModalVisible} onHide={() => setDebitCategoryModalVisible(false)}/>
-
                 </div>
             </Container>
         </Container>
     )
 });
-
-
 
 export default Categories;

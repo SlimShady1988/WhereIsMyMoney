@@ -1,8 +1,9 @@
 import React, {useContext, useEffect} from 'react';
 import {Button, Dropdown, Form, Modal} from "react-bootstrap";
 import UserContext from "../../context";
+import {observer} from "mobx-react-lite";
 
-const CreateDebitCategoryModal = ({show, onHide}) => {
+const CreateDebitCategoryModal = observer( ({show, onHide}) => {
     const {user} = useContext(UserContext)
     const categories = user.debit_categories;
 
@@ -37,6 +38,6 @@ const CreateDebitCategoryModal = ({show, onHide}) => {
             </Modal>
         </div>
     );
-};
+});
 
 export default CreateDebitCategoryModal;

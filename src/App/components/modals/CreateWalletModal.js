@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
+import {observer} from "mobx-react-lite";
 
-const CreateWalletModal = ({show, onHide}) => {
+const CreateWalletModal = observer( ({show, onHide}) => {
     const currency = ["UAH", "USD", "EUR", "PLN", "GBP"];
 
     return (
@@ -42,6 +43,6 @@ const CreateWalletModal = ({show, onHide}) => {
             </Modal>
         </div>
     );
-};
+});
 
 export default CreateWalletModal;

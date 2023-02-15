@@ -1,6 +1,7 @@
 package com.app.WhereIsMyMoney.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 @Getter
@@ -16,7 +17,11 @@ public class BaseCategory implements Category {
 
     @Column(name = "name", nullable = false)
     private String name;
-//
+
+    @Column(name = "status", nullable = false)
+    @ColumnDefault("disabled")
+    private String status;
+
     @Column(name = "img", nullable = false)
     private String img;
 }

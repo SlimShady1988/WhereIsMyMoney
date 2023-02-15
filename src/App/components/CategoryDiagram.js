@@ -1,7 +1,5 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import Chart from 'react-apexcharts'
-
-
 
 class CategoryDiagram extends Component {
 
@@ -13,20 +11,16 @@ class CategoryDiagram extends Component {
             },
             series: this.props.percents,
         }
-
-
     }
 
     static getDerivedStateFromProps(props) {
         return (
             {"options": {"labels": props.labels,
                     "legend": {"floating": true}
-                    // "plotOptions": {"pie": {"donut": {"size" : '50%' }}}
                     },
                 "series": props.percents}
         );
     }
-
 
     render() {
         return (
@@ -35,8 +29,6 @@ class CategoryDiagram extends Component {
             </div>
         );
     }
-
-
 }
 
 export default CategoryDiagram;

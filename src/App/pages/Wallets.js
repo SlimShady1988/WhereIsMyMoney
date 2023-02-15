@@ -9,19 +9,9 @@ import CreateWalletModal from "../components/modals/CreateWalletModal";
 
 const Wallets = observer(() => {
     const {user} = useContext(UserContext)
-    const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     const [walletModalVisible, setWalletModalVisible] = useState(false);
-
-     let selectedDate= new Date().toLocaleDateString('uk-UK', options);
-    // const [selectedDate, setSelectedDate] = useState(null);
-
-
-
-
-
-
-
-
+    const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+    let selectedDate= new Date().toLocaleDateString('uk-UK', options);
 
     const operations = [
         {id: 1, type:1, name: "Покупки їди", value: 190, date: new Date(2022,10,16,11,25,26),
@@ -44,13 +34,10 @@ const Wallets = observer(() => {
 
     ];
 
-
      function setNewDate (operation) {
          selectedDate = operation;
          return null;
      }
-
-
 
     return (
         <Container>
@@ -59,7 +46,7 @@ const Wallets = observer(() => {
                      <WalletSidebar user={user}/>
                      <Row style={{ borderBottom: "6px solid dodgerblue"}}></Row>
 
-                     <Button onClick={()=>setWalletModalVisible(true)} className="mt-2">Додати гаманець</Button>
+                     <Button onClick={()=>setWalletModalVisible(true)} className="m-3">Додати гаманець</Button>
                      <CreateWalletModal show={walletModalVisible} onHide={() => setWalletModalVisible(false)}/>
                  </Col>
                  <Col md={9}>

@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
 import {observer} from "mobx-react-lite";
-import UserContext, {OperationContext} from "../context";
 import {Card, Col, Container, ListGroup, Row} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 import "../pages/style/operations.css"
-// import WalletImg from "../static/210297132.png";
+import More from "../static/more.png"
 
 const OperationList = observer((props) => {
     const operation  = props.operation;
@@ -43,7 +42,9 @@ const OperationList = observer((props) => {
                     <hr className="description"/>
                     <Accordion>
                         <Accordion.Item eventKey="0" >
-                            <Accordion.Header style={{borderRadius: '0 0 5px 5px'}}><b>Детальніше</b></Accordion.Header>
+                            <Accordion.Header style={{borderRadius: '0 0 5px 5px'}}>
+                                <img  width="30px" height="30px" src={More} alt=""/>
+                            </Accordion.Header>
                             <Accordion.Body>
                                 <ListGroup>
                                     <ListGroup.Item>

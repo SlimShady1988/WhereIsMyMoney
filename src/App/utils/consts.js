@@ -10,3 +10,5 @@ export const CATEGORY_ROUTE          = "/category";
 export const OPERATIONS_ROUTE        = "/operations";
 export const PRODUCT_ROUTE           = "/product";
 export const ABOUT_ROUTE             = "/about";
+export const CREDIT_OPERATION_ROUTE  = "/credit";
+export const DEBIT_OPERATION_ROUTE  = "/debit";

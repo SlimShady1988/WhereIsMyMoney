@@ -2,6 +2,7 @@
     background-color: #026425;
     pointer-events: none;
 }
+
 .credit {
     background-color: #dc3545;
     pointer-events: none;
@@ -18,15 +19,17 @@ div.col-md-8 {
     position: static;
     right: 200px;
     border-style: solid;
-    border-bottom-width: medium;
-    border-right-width: medium;
+    border-bottom-width: thick;
+    border-right-width: thick;
 }
 
 div.debit.card-body {
-    background-color: #b9d9ff;
+    background-color: lightcyan;
+
 }
 div.credit.card-body {
-    background-color: #fdbbc4;
+    background-color: lightcyan;
+
 }
 
 .accordion {
@@ -48,8 +51,8 @@ div.credit.card-body {
 
 .accordion-button {
     display: block;
-    color: white;
-    background-color: #fdbbc4;
+    color: black;
+    background-color: lightcyan;
     margin-bottom: 0;
     text-align: center;
     padding: 2px 12px 2px 12px;

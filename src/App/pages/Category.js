@@ -1,8 +1,6 @@
 import React, {useContext} from 'react';
 import {Col, Container, Image, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
-import {useParams} from "react-router-dom";
-import OperationDiagram from "../components/OperationDiagram";
 import Food from "../../App/static/pizza.png";
 import OperationList from "../components/OperationList";
 
@@ -39,12 +37,21 @@ const Category = observer(() => {
             <Col md={6}>
                <Image width={400} height={400} src={category.img}/>
             </Col>
+
             {/*FOR PREMIUM*/}
-            {/*<Col md={6}>*/}
+            <Col md={6}>
+                Получити всі айдішніки операцій що належать цій категорії і число не менше 1 цього місяця
+                та вибрати всі товари в яких операції_ід вище згадані, та скласти їх в графік  -
+                Якщо товарів більше 2 то підбиваємо суму, і якщо їх 1 елемент то до  графи - інші товари
+                і складаємо відношення
             {/*    <OperationDiagram/>*/}
-            {/*</Col>*/}
+            </Col>
 
         </Row>
+            Показати всі операції де категорія "відповідна"
+            статус  DONE якщо кредитова
+            де число не дальше 1 цього місяця
+
             {operations.map(operation =>
                 <OperationList key={operation.id} operation={operation}/>
             )}

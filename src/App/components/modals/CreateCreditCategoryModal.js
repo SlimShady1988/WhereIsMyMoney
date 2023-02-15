@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button, Dropdown, Form, Modal} from "react-bootstrap";
+import {observer} from "mobx-react-lite";
 
-const CreateCreditCategoryModal = ({show, onHide}) => {
+const CreateCreditCategoryModal = observer( ({show, onHide}) => {
     const categories = ["Одяг", "їжа", "Подарунки", "Кафе та ресторани", "Комунальні платежі"];
 
     return (
@@ -33,6 +34,6 @@ const CreateCreditCategoryModal = ({show, onHide}) => {
             </Modal>
         </div>
     );
-};
+});
 
 export default CreateCreditCategoryModal;
