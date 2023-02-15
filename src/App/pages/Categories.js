@@ -3,11 +3,10 @@ import {observer} from "mobx-react-lite";
 import UserContext from "../context";
 import {Button, ButtonGroup, Container, Row, ToggleButton} from "react-bootstrap";
 import CategoryItem from "../components/CategoryItem";
-import "../pages/style/categories.css"
 import CategoryDiagram from "../components/CategoryDiagram";
-import "../pages/style/hide_spinner.css"
 import CreateCreditCategoryModal from "../components/modals/CreateCreditCategoryModal";
 import CreateDebitCategoryModal from "../components/modals/CreateDebitCategoryModal";
+import "../pages/style/hide_spinner.css"
 
 const Categories = observer(() => {
     const {user} = useContext(UserContext)
@@ -99,7 +98,6 @@ const Categories = observer(() => {
                             value={radio.value}
                             checked={radioValue === radio.value}
                             onChange={(e) => changeCategoryList(e.currentTarget.value)}
-                            // onChange={(e) => setRadioValue(e.currentTarget.value)}
                         >
                             {radio.name}
                         </ToggleButton>

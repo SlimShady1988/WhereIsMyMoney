@@ -1,17 +1,17 @@
 import {
     ADMIN_ROUTE,
     PROFILE_ROUTE,
+    BUDGET_ROUTE,
     WALLET_ROUTE,
     LOGIN_ROUTE,
     REGISTRATION_ROUTE,
-    CATEGORY_ROUTE,
     PRODUCT_ROUTE,
     OPERATIONS_ROUTE,
     ABOUT_ROUTE,
     CATEGORIES_ROUTE,
     CREDIT_OPERATION_ROUTE,
     DEBIT_OPERATION_ROUTE,
-    WALLETS_ROUTE
+    WALLETS_ROUTE, CREDIT_CATEGORY_ROUTE, DEBIT_CATEGORY_ROUTE
 } from "./utils/consts";
 
 import AdminDashboard from "./pages/AdminDashboard";
@@ -23,10 +23,12 @@ import Auth from "./pages/Auth";
 import About from "./pages/About";
 // import CategoryItem from "./components/CategoryItem";
 import Wallet from "./pages/Wallet";
-import Category from "./pages/Category";
+import CreditCategory from "./pages/CreditCategory";
 import Operations from "./pages/Operations";
 import CreditOperation from "./pages/CreditOperation";
 import DebitOperation from "./pages/DebitOperation";
+import Budget from "./pages/Budget";
+import DebitCategory from "./pages/DebitCategory";
 
 export const adminRoutes = [
     {path:'ADMIN_ROUTE', Component: AdminDashboard}
@@ -34,9 +36,11 @@ export const adminRoutes = [
 
 export const authRoutes = [
     {path: PROFILE_ROUTE, Component: Profile},
+    {path: BUDGET_ROUTE, Component: Budget},
     {path: WALLET_ROUTE + '/:id', Component: Wallet},
     {path: WALLETS_ROUTE, Component: Wallets},
-    {path: CATEGORY_ROUTE + '/:id', Component: Category},
+    {path: DEBIT_CATEGORY_ROUTE + '/:id', Component: DebitCategory},
+    {path: CREDIT_CATEGORY_ROUTE + '/:id', Component: CreditCategory},
     {path: CATEGORIES_ROUTE, Component: Categories},
     {path: PRODUCT_ROUTE, Component: Product},
     {path: OPERATIONS_ROUTE, Component: Operations},

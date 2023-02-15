@@ -27,7 +27,7 @@ export default class OperationStore {
                 ]
             },
             {id: 3, type:2, name: "ЗП", value: 50000, items: []},
-            {id: 4, type:2, name: "Мама", value: 20000, items: []}
+            {id: 4, type:2, name: "Дарунок", value: 20000, items: []}
 
         ];
 

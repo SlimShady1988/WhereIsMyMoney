@@ -67,7 +67,7 @@ const Operations = observer(() => {
         },
         {id: 3, type:2, name: "ЗП", value: 50000, date: new Date(2022,11,23,14,25,26), items: []},
         {id: 4, type:2, name: "ЗП", value: 30000, date: new Date(2022,11,23,14,25,26), items: []},
-        {id: 5, type:2, name: "Мама", value: 20000, date: new Date(2023,1,23,15,25,26), items: []}
+        {id: 5, type:2, name: "Дарунок", value: 20000, date: new Date(2023,1,23,15,25,26), items: []}
 
     ];
 

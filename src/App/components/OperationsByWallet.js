@@ -12,7 +12,7 @@ const OperationsByWallet = observer((props) => {
     return (
         <Container style={{padding: 0}}>
                 <div className={ operation.type === 2 ? "mt-2 d-flex justify-content-end" : "mt-2 d-flex "}>
-                <Card className={ operation.type === 2 ? "debit" : "credit"} style={{width: '50%'}}>
+                <Card className={ operation.type === 2 ? "debit" : "credit"} style={{width: '50%', cursor: 'unset'}}>
                     <Card.Body className={ operation.type === 2 ? "debit" : "credit"}>
                         <Card.Title>
                             <Row>
