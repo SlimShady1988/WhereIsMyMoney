@@ -3,7 +3,7 @@ import './style/NavBar.css'
 import Profile from "../../App/static/Profile.png";
 
 import {
-    ABOUT_ROUTE, CATEGORIES_ROUTE,
+    ABOUT_ROUTE, BUDGET_ROUTE, CATEGORIES_ROUTE,
     LOGIN_ROUTE, LOGOUT_ROUTE, OPERATIONS_ROUTE,
     PROFILE_ROUTE,
     REGISTRATION_ROUTE,
@@ -43,7 +43,7 @@ const NavBar = observer(() => {
                         >
                             <Dropdown.Item onClick={() => navigate(PROFILE_ROUTE)} variant={"outline-light"}>Профіль</Dropdown.Item>
                             <Dropdown.Item>Преміум</Dropdown.Item>
-                            <Dropdown.Item>Бюджет</Dropdown.Item>
+                            <Dropdown.Item onClick={() =>navigate(BUDGET_ROUTE)}>Бюджет</Dropdown.Item>
                             <Dropdown.Divider />
                             <Dropdown.Item>Про додаток</Dropdown.Item>
                             <Dropdown.Divider />

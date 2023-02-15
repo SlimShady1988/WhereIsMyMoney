@@ -1,60 +1,70 @@
-import React from 'react';
-import {Button, Form, Table} from "react-bootstrap";
+import React, {useContext, useState} from 'react';
+import {Button, Container, Form, Table} from "react-bootstrap";
+import Save from "../static/save.png";
+import UserContext from "../context";
 
 const Budget = () => {
-    const table = ['№', 'Назва Категорії', 'Бюджет(грн)', 'Витрачено(грн)', 'Витрачено (%) ', 'Сума товару']
-    // const category  =
-    return (
-        <div>
-            {/*<Table striped bordered hover>*/}
-            {/*    <thead>*/}
-            {/*    <tr>*/}
-            {/*        {table.map(title => <th key={title}>{title}</th>)}*/}
-            {/*    </tr>*/}
-            {/*    </thead>*/}
-            {/*    <tbody>*/}
-            {/*    {goods.map((g, i) =>*/}
-            {/*        <tr key={g.date}>*/}
-            {/*            <td>*/}
-            {/*                {i + 1}*/}
-            {/*            </td>*/}
-            {/*            <td width="60%">*/}
-            {/*                <Form.Control id={'data-name-' + g.date} type="input" placeholder="Назва товару"/>*/}
-            {/*            </td>*/}
+    const table = ['№', 'Назва Категорії', 'Бюджет(грн)', 'Витрачено(грн)', 'Витрачено (%)', 'save']
+    const [budget, setBudget] = useState()
+    const {user} = useContext(UserContext)
+    const categories = user._credit_categories;
+    console.log(categories)
 
-            {/*            <td width="15%">*/}
-            {/*                <Form.Control className="no-spinner"*/}
-            {/*                              type="number"*/}
-            {/*                              id={'data-price-' + g.date}*/}
-            {/*                              data-price={g.date}*/}
-            {/*                              onChange={(e) =>*/}
-            {/*                                  checkPrice(Number(e.target.value), e.target.dataset.price)}/>*/}
-            {/*            </td>*/}
-            {/*            <td width="10%">*/}
-            {/*                <Form.Control className="no-spinner"*/}
-            {/*                              type="number"*/}
-            {/*                              disabled*/}
-            {/*                              id={'data-count-' + g.date} data-count={g.date}*/}
-            {/*                              onChange={(e) =>*/}
-            {/*                                  setCount(Number(e.target.value), e.target.dataset.count)}/>*/}
-            {/*            </td>*/}
-            {/*            <td width="15%">*/}
-            {/*                <Form.Control className="no-spinner amount-value"*/}
-            {/*                              type="number"*/}
-            {/*                              id={'data-sum-' + g.date}*/}
-            {/*                              data-sum={g.date}*/}
-            {/*                              onChange={(e) =>*/}
-            {/*                                  setSum(e.target.value, e.target.dataset.sum)}/>*/}
-            {/*            </td>*/}
-            {/*            <td className="d-flex justify-content-center">*/}
-            {/*                <Button onClick={() => removeGoods(g.date.getTime())}*/}
-            {/*                        variant={"outline-danger"}>Видалити</Button>*/}
-            {/*            </td>*/}
-            {/*        </tr>*/}
-            {/*    )}*/}
-            {/*    </tbody>*/}
-            {/*</Table>*/}
-        </div>
+    const save = (categoryId) => {
+        console.log("відправ запит на update  поля бюджет категорії з ID categoryId в БД ")
+
+    };
+
+    return (
+        <Container>
+            <Table className="m-3" striped bordered hover >
+                <thead>
+                <tr>
+                    {table.map(title => <th key={title}>{title}</th>)}
+                </tr>
+                </thead>
+                <tbody>
+                {categories.map((category, i) =>
+                    <tr key={category.date}>
+                        <td>
+                            {i + 1}
+                        </td>
+                        <td>
+                            {category.name}
+                        </td>
+
+                        <td>
+                            <Form.Control className="no-spinner"
+                                          type="number"
+                                          defaultValue={category.budget}
+                                          onChange={(e) =>
+                                              setBudget(Number(e.target.value))}/>
+                        </td>
+                        <td>
+                            <Form.Control className="no-spinner"
+                                          type="number"
+                                          disabled
+                                          value={category.spend}/>
+                        </td>
+                        <td width="15%">
+                            <Form.Control className="no-spinner amount-value"
+                                          type="number"
+                                          disabled
+                                          value={(category.spend * 100 / category.budget)}
+                            />
+                        </td>
+                        <td className="d-flex justify-content-center">
+                            <Button onClick={() => save(category.id)}
+                                    title = "Save changes"
+                                    className="w-100 btn-success">
+                                <img style={{width: 20, height: 20}} src={Save} alt="save"/>
+                            </Button>
+                        </td>
+                    </tr>
+                )}
+                </tbody>
+            </Table>
+        </Container>
     );
 };
 

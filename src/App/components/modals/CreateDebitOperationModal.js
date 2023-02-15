@@ -13,8 +13,6 @@ const CreateDebitOperationModal = observer( ({show, onHide}) => {
 
 
     const submitDebit = () => {
-
-
         onHide();
     }
     return (
