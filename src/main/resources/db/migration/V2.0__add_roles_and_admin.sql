@@ -2,24 +2,24 @@ INSERT INTO roles (id, name) values (1, 'ROLE_USER');
 INSERT INTO roles (id, name) values (2, 'ROLE_ADMIN');
 INSERT INTO roles (id, name) values (3, 'ROLE_SUPERADMIN');
 
-INSERT INTO users (img, username,email,password)
-values ('','user', 'user', '$2a$12$ZfSvxRkaZxGS2P19EGXrveCLPayZYz/A7ZZpOl3gyXRu8J4nkCtma');
-INSERT INTO users (img, username,email,password)
-values ('','admin', 'admin', '$2a$12$G6goV3EbL.0s1q0PrubOa./BCRUIXQXFKWuO6tzjNmH7AkqwexITm');
-INSERT INTO users (img, username,email,password)
-values ('','super', 'super', '$2a$12$oPHpHHclxP9MDNwp2h3JY.LLvtaZYU7UyPiuSElODaZ2rw29B/ZBu');
-INSERT INTO users (img, username,email,password)
-values ('','user1', 'user1', '$2a$12$ZfSvxRkaZxGS2P19EGXrveCLPayZYz/A7ZZpOl3gyXRu8J4nkCtma');
+INSERT INTO users (username, email, password)
+values ('user', 'user', '$2a$12$ZfSvxRkaZxGS2P19EGXrveCLPayZYz/A7ZZpOl3gyXRu8J4nkCtma');
+INSERT INTO users (username, email,password)
+values ('admin', 'admin', '$2a$12$G6goV3EbL.0s1q0PrubOa./BCRUIXQXFKWuO6tzjNmH7AkqwexITm');
+INSERT INTO users (username, email,password)
+values ('super', 'super', '$2a$12$oPHpHHclxP9MDNwp2h3JY.LLvtaZYU7UyPiuSElODaZ2rw29B/ZBu');
+INSERT INTO users (username, email,password)
+values ('user1', 'user1', '$2a$12$ZfSvxRkaZxGS2P19EGXrveCLPayZYz/A7ZZpOl3gyXRu8J4nkCtma');
 
 INSERT INTO users_roles(user_id, role_id) VALUES (1, 1);
 INSERT INTO users_roles(user_id, role_id) VALUES (2, 2);
 INSERT INTO users_roles(user_id, role_id) VALUES (3, 3);
 INSERT INTO users_roles(user_id, role_id) VALUES (4, 1);
 
-INSERT INTO wallets(id, name, img, user_id) VALUES (1, 'Кеш', '', 1);
-INSERT INTO wallets(id, name, img, user_id) VALUES (2, 'VISA', '', 1);
-INSERT INTO wallets(id, name, img, user_id) VALUES (3, 'Кеш', '', 4);
-INSERT INTO wallets(id, name, img, user_id) VALUES (4, 'VISA', '', 4);
+INSERT INTO wallets( name, img, user_id) VALUES ( 'Кеш', '', 1);
+INSERT INTO wallets( name, img, user_id) VALUES ( 'VISA', '', 1);
+INSERT INTO wallets( name, img, user_id) VALUES ( 'Кеш', '', 4);
+INSERT INTO wallets( name, img, user_id) VALUES ( 'VISA', '', 4);
 
 -- INSERT INTO types(name) VALUES ('DEBIT');
 -- INSERT INTO types(name) VALUES ('CREDIT');

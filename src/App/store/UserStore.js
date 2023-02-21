@@ -9,7 +9,7 @@ import Present from "../../App/static/gift-box.png";
 export default class UserStore {
     constructor() {
         // this._isAuth = false;
-        this._isAuth = true;
+        this._isAuth = {};
         this._user = {};
         this._selectedWallet = {};
         this._selectedDebitCategory = {};

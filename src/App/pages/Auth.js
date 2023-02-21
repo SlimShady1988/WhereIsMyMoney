@@ -8,20 +8,20 @@ import {observer} from "mobx-react-lite";
 
 const Auth = observer (() => {
         const {user} = useContext(UserContext);
-        const [email, setEmail] = useState("");
+        const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
         const isLogin = window.location.pathname === LOGIN_ROUTE;
-        const isRegistration = window.location.pathname === REGISTRATION_ROUTE;
         const navigate = useNavigate();
 
         const click = async () => {
             try {
                 let data;
                 if (isLogin) {
-                    data = await login(email, password)
+                    data = await login(username, password)
                 } else {
-                    data = await registration(email, password);
+                    data = await registration(username, password);
                 }
+
                 user.setUser(user);
                 user.setIsAuth(true);
                 navigate(ABOUT_ROUTE)
@@ -36,15 +36,30 @@ const Auth = observer (() => {
             <Card className="p-5" style={{width: 600}}>
                 <h2 className="m-auto">Авторизація</h2>
                 <Form className="d-flex flex-column">
-                    <Form.Control className="mt-3" placeholder="Введіть емейл"
+                    <Form.Control className="mt-3"
+                                  value={username}
+                                  placeholder="Введіть емейл"
+                                  onChange={e=>setUsername(e.target.value)}
+
                     />
-                    <Form.Control className="mt-3" placeholder="Введіть пароль"/>
+                    <Form.Control className="mt-3"
+                                  value={password}
+                                  placeholder="Введіть пароль"
+                                  type="password"
+                                  onChange={e=>setPassword(e.target.value)}
+                    />
                     <div className="d-flex justify-content-between mt-3">
                         {isLogin
                             ?
-                            <div>Немає акаунта? <NavLink to={REGISTRATION_ROUTE}>Зареєструватись</NavLink>
+                            <div>Немає акаунта? - <Button
+                                className="btn btn-sm btn-info"
+                                onClick={() => navigate(REGISTRATION_ROUTE)}>Зареєструватись</Button>
                             </div>
-                            : <div>Є акаунт?? <NavLink to={LOGIN_ROUTE}>Увійти</NavLink></div>
+                            :
+                            <div>Є акаунт? - <Button
+                                className="btn btn-sm btn-info"
+                                onClick={() => navigate(LOGIN_ROUTE)}>Увійти</Button>
+                            </div>
                         }
                         <Button onClick={click}
                                 variant={"outline-primary"}>{isLogin ? "Увійти" : "Зареєструватись"}</Button>

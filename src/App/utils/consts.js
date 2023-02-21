@@ -1,7 +1,7 @@
 export const ADMIN_ROUTE             = "/admin";
-export const LOGIN_ROUTE             = "/auth/signin";
-export const REGISTRATION_ROUTE      = "/auth/signup";
-export const LOGOUT_ROUTE            = "/logout";
+export const LOGIN_ROUTE             = "/auth/login";
+export const REGISTRATION_ROUTE      = "/auth/registration";
+export const LOGOUT_ROUTE            = "/auth/logout";
 export const PROFILE_ROUTE           = "/profile";
 export const BUDGET_ROUTE            = "/budget";
 export const WALLETS_ROUTE           = "/wallets";

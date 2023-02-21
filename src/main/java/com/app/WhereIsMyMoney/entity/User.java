@@ -43,7 +43,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "img", nullable = false)
+    @Column(name = "img")
     private String img;
 
     @ToString.Exclude

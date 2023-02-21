@@ -35,8 +35,6 @@ public class DebitCategoryController {
                                                  @RequestParam(required = false, name = "userId") Long userId
     ) throws Exception {
        //        var userId =  principal.getName();
-        System.out.println(principal);
-        System.out.println(principal.getName());
         List<DebitCategory> categories = categoryService.getCategories(userId);
 
         return ResponseEntity.ok(categories);
@@ -63,9 +61,7 @@ public class DebitCategoryController {
     }
 
     @PatchMapping(value = "/update")
-    public ResponseEntity<?> updateCategory(
-            @RequestBody DebitCategoryDTO categoryDTO
-    ) {
+    public ResponseEntity<?> updateCategory(@RequestBody DebitCategoryDTO categoryDTO) {
         var category = categoryService.updateCategory(categoryDTO);
         return ResponseEntity.ok().body(
                 new MessageResponse(String.format("Operation '%s' was successfully updated", category.getName()))

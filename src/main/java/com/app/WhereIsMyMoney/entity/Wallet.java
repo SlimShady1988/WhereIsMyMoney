@@ -3,6 +3,7 @@ package com.app.WhereIsMyMoney.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -30,6 +31,7 @@ public class Wallet {
     private String name;
 
     @Column(name = "img", nullable = false)
+    @ColumnDefault("")
     private String img;
 
     @JsonBackReference

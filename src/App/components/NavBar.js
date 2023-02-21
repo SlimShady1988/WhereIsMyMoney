@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import './style/NavBar.css'
 import Profile from "../../App/static/Profile.png";
+import {clearToken} from "../http/userApi";
 
 import {
     ABOUT_ROUTE, BUDGET_ROUTE, CATEGORIES_ROUTE,
@@ -18,15 +19,16 @@ const NavBar = observer(() => {
     const {user} = useContext(UserContext);
     const navigate = useNavigate();
 
-    const logout = () => {
-        user.setUser({})
-        user.setIsAuth(false)
+    const logout = async () => {
+        user.setUser({});
+        user.setIsAuth(false);
+        await clearToken();
         navigate(ABOUT_ROUTE)
     }
     return(
         <Navbar bg="primary" variant="dark">
             <Container>
-                <Navbar.Brand href="{{ WALLET_ROUTE }}">WhereIsMyMoney</Navbar.Brand>
+                <Navbar.Brand href="#">WhereIsMyMoney</Navbar.Brand>
                 {user.isAuth ?
                     <Nav className="me-auto">
                         <Button className="ms-2" onClick={() => navigate(WALLETS_ROUTE)} variant={"outline-light"}>Гаманець</Button>

@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Dropdown, Form, Modal, Row, Table} from "react-bootstrap";
 import {OPERATIONS_ROUTE} from "../utils/consts";
 import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 
 
-const CreditOperation = () => {
+const CreditOperation = observer(() => {
     const navigate = useNavigate();
     const [controlDivs, setControlDivs] = useState([document.querySelectorAll('.amount-value')]);
     const [amount, setAmount] = useState(0);
@@ -77,9 +78,6 @@ const CreditOperation = () => {
         setControlDivs([...controlDivs])
     }
 
-
-
-
     const removeGoods = (date) => {
         setGoods(goods.filter((e) =>
             e.date.getTime() !== date
@@ -87,9 +85,9 @@ const CreditOperation = () => {
         if (goods.length <= 1) {
             setTable([])
         }
+
+        setControlDivs([...controlDivs])
     }
-
-
 
     useEffect(() => {
         let amount = 0;
@@ -97,6 +95,7 @@ const CreditOperation = () => {
         for (let i = 0; i < $sum.length; i++) {
             amount += Number($sum.item(i).value);
         }
+        console.log(amount)
         let total = document.querySelector('.total-amount');
         if ($sum.length > 0) {
             total.setAttribute('disabled', '');
@@ -206,7 +205,7 @@ const CreditOperation = () => {
                                                       id={'data-price-' + g.date.getTime()}
                                                       data-price={g.date.getTime()}
                                                       onChange={(e) =>
-                                                          checkPrice(controlDivs, Number(e.target.value), e.target.dataset.price)}/>
+                                                          checkPrice(Number(e.target.value), e.target.dataset.price)}/>
                                     </td>
                                     <td width="10%">
                                         <Form.Control className="no-spinner"
@@ -216,7 +215,7 @@ const CreditOperation = () => {
                                                       id={'data-count-' + g.date.getTime()}
                                                       data-count={g.date.getTime()}
                                                       onChange={(e) =>
-                                                          setCount(controlDivs, Number(e.target.value), e.target.dataset.count)}/>
+                                                          setCount(Number(e.target.value), e.target.dataset.count)}/>
                                     </td>
                                     <td width="15%">
                                         <Form.Control className="no-spinner amount-value"
@@ -224,7 +223,7 @@ const CreditOperation = () => {
                                                       id={'data-sum-' + g.date.getTime()}
                                                       data-sum={g.date.getTime()}
                                                       onChange={(e) =>
-                                                          setSum(controlDivs, e.target.value, e.target.dataset.sum)}/>
+                                                          setSum(e.target.value, e.target.dataset.sum)}/>
                                     </td>
                                     <td className="d-flex justify-content-center">
                                         <Button onClick={() => removeGoods(g.date.getTime())}
@@ -240,6 +239,6 @@ const CreditOperation = () => {
             </Container>
         </div>
     );
-};
+});
 
 export default CreditOperation;

@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,8 +22,8 @@ public class JwtService {
     @Value("${jwt.ExpirationMS}")
     private Integer jwtExp;
 
-    public String generateJWT(Authentication authentication) {
-        UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+    public String generateJWT(UserDetailsImpl principal) {
+//        UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
 
         Claims claims = Jwts.claims().setSubject(principal.getUsername());
 //        claims.put("role", );
@@ -49,6 +51,14 @@ public class JwtService {
             System.err.println(e.getMessage());
         }
         return false;
+    }
+
+    public String parseJwt(HttpServletRequest req) {
+        String headerAuth = req.getHeader("Authorization");
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
+        }
+        return null;
     }
 
     public String getUserNameFromJwt(String token) {

@@ -40,9 +40,9 @@ public class UserService {
     public void updateUser(Long id, UserDTO user) {
         User existedUser = findById(id);
         if(user.getUsername() != null)
-            existedUser.setUsername(user.getUsername());
-        if(user.getEmail() != null)
-            existedUser.setEmail(user.getEmail());
+            existedUser.setUsername(user.getEmail());
+//        if(user.getEmail() != null)
+//            existedUser.setEmail(user.getEmail());
         if(user.getPassword() != null)
             existedUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -73,6 +73,7 @@ public class UserService {
             user.setRoles(roles);
             var wallet = new Wallet();
             wallet.setName("temporary");
+            wallet.setImg("");
             user.addWallet(wallet);
 
             userRepository.save(user);
@@ -84,11 +85,26 @@ public class UserService {
     }
 
     public void deleteUser(User user) throws Exception {
-        try{
+        try {
             userRepository.delete(user);
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
 
+    public boolean existsByEmail(String username) throws Exception {
+        try {
+            return userRepository.existsByEmail(username);
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public boolean existsByUsername(String username) throws Exception {
+        try {
+            return userRepository.existsByUsername(username);
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
 }

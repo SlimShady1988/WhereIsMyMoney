@@ -36,9 +36,6 @@ public class CreditCategoryController {
     public ResponseEntity<?> getCategoriesByUser(Principal principal,
                                                  @RequestParam(required = false, name = "userId") Long userId
     ) throws Exception {
-       //        var userId =  principal.getName();
-        System.out.println(principal);
-        System.out.println(principal.getName());
         List<CreditCategory> categories = categoryService.getCategories(userId);
 
         return ResponseEntity.ok(categories);
