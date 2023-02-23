@@ -1,6 +1,7 @@
 package com.app.WhereIsMyMoney.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,16 +10,20 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@ToString
+//@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name = "wallets")
 public class Wallet {
 
@@ -34,6 +39,13 @@ public class Wallet {
     @ColumnDefault("")
     private String img;
 
+    @Column(name = "balance")
+    @ColumnDefault("0")
+    private BigDecimal balance;
+
+    @Column(name = "currency")
+    @ColumnDefault("UAH")
+    private String currency;
     @JsonBackReference
     @ToString.Exclude
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "wallets_persons_fk"))

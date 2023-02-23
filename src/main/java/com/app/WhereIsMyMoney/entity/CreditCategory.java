@@ -36,10 +36,9 @@ public class CreditCategory extends BaseCategory implements Category, Credit {
 
     @Column(name = "budget")
     private BigDecimal budget;
-//    @JsonBackReference
-//    @ToString.Exclude
-    @JoinColumn(name = "user_id", unique = true)
+    @JsonBackReference
     @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "credit_user_fk"))
     private User user;
 
 //    @ToString.Exclude

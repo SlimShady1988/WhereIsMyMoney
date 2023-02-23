@@ -30,7 +30,7 @@ public class ProductService {
             CreditOperation creditOperation = operationService.findById(operationId);
             return productRepository.findProductsByOperation(creditOperation);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
 
     }
@@ -101,11 +101,11 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void deleteProduct(Product operation) throws Exception {
+    public void deleteProduct(Product operation) {
         try {
             productRepository.delete(operation);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

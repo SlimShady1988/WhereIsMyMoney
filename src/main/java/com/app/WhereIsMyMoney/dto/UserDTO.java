@@ -10,7 +10,6 @@ import java.util.HashSet;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
-@ToString
 public class UserDTO {
     private String username;
     private String email;

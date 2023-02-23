@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-export default class OperationStore {
+export default class DebitOperationStore {
 
     constructor() {
         this._types = [

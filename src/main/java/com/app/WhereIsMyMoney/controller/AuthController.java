@@ -44,7 +44,7 @@ public class AuthController {
         this.jwtService = jwtService;
     }
     @PostMapping("/login")
-    public ResponseEntity<?> auth( @RequestBody LoginRequest loginRequest) throws Exception {
+    public ResponseEntity<?> auth( @RequestBody LoginRequest loginRequest) {
         if (!userService.existsByEmail(loginRequest.getUsername())) {
             return ResponseEntity.badRequest().body(
                     new MessageResponse(String.format("Error: User with username '%s' not exist", loginRequest.getUsername()))

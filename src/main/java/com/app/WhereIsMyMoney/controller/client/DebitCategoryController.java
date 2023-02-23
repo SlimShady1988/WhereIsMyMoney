@@ -16,6 +16,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("categories/debit")
 public class DebitCategoryController {
     private final DebitCategoryService categoryService;

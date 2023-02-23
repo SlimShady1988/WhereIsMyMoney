@@ -57,7 +57,7 @@ public class Product {
 //    private Operation operation;
 
     @JsonBackReference
-    @ToString.Exclude
+//    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "operation_id", foreignKey = @ForeignKey(name = "operations_categories_fk"))
     private CreditOperation operation;

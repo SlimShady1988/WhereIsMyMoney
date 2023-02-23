@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("operations/debit")
 public class DebitOperationController {
     private final DebitOperationService operationService;

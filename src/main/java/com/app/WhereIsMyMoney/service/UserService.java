@@ -33,20 +33,30 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(()
                 -> new UsernameNotFoundException(String.format("User with id '%s' not exist", id)));
     }
-//    public User getUser(String username) {
-//        return userRepository.findByUsername(username).orElseThrow(()
-//                -> new UsernameNotFoundException(String.format("User with name '%s' not exist", username)));
-//    }
+
+    public User getUser(String username) {
+        try {
+            return userRepository.findByUsername(username).orElseThrow(()
+                    -> new UsernameNotFoundException(String.format("User with name '%s' not exist", username)));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
     public void updateUser(Long id, UserDTO user) {
-        User existedUser = findById(id);
-        if(user.getUsername() != null)
-            existedUser.setUsername(user.getEmail());
+        try {
+            User existedUser = findById(id);
+            if(user.getUsername() != null)
+                existedUser.setUsername(user.getEmail());
 //        if(user.getEmail() != null)
 //            existedUser.setEmail(user.getEmail());
-        if(user.getPassword() != null)
-            existedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            if(user.getPassword() != null)
+                existedUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userRepository.save(existedUser);
+            userRepository.save(existedUser);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
 //    public void getWalletsByUser(Long id, UserDTO user) {
@@ -59,12 +69,7 @@ public class UserService {
 //        }
 //    }
 
-    public void buildAndSaveUser(
-            String username,
-            String email,
-            String password,
-            Collection<Role> roles
-    ) throws Exception {
+    public void buildAndSaveUser(String username, String email, String password, Collection<Role> roles) {
         try {
             User user = new User();
             user.setUsername(username);
@@ -77,34 +82,33 @@ public class UserService {
             user.addWallet(wallet);
 
             userRepository.save(user);
-
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
 
     }
 
-    public void deleteUser(User user) throws Exception {
+    public void deleteUser(User user) {
         try {
             userRepository.delete(user);
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public boolean existsByEmail(String username) throws Exception {
+    public boolean existsByEmail(String username) {
         try {
             return userRepository.existsByEmail(username);
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
-    public boolean existsByUsername(String username) throws Exception {
+    public boolean existsByUsername(String username) {
         try {
             return userRepository.existsByUsername(username);
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

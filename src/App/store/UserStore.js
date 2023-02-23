@@ -8,7 +8,6 @@ import Present from "../../App/static/gift-box.png";
 
 export default class UserStore {
     constructor() {
-        // this._isAuth = false;
         this._isAuth = {};
         this._user = {};
         this._selectedWallet = {};
@@ -16,19 +15,7 @@ export default class UserStore {
         this._selectedCreditCategory = {};
         this._creditBudget = 0;
         this._debitTotal = 0;
-        this._wallets = [
-            {
-                id:1,
-                name:"wallet1",
-                img: "https://content2.rozetka.com.ua/goods/images/big/210297132.jpg"
-            },
-            {
-                id:2,
-                name:"wallet2",
-                img: "https://content2.rozetka.com.ua/goods/images/big/210297132.jpg"
-
-            },
-        ];
+        this._wallets = [];
 
         this._debit_categories = [
             {

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Button, ButtonGroup, Col, Container, Row} from "react-bootstrap";
 import WalletSidebar from "../components/WalletSidebar";
@@ -12,6 +12,7 @@ const Wallets = observer(() => {
     const {user} = useContext(UserContext)
     const [walletModalVisible, setWalletModalVisible] = useState(false);
     const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+    // const [operations, setOperations] = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     let selectedDate= new Date().toLocaleDateString('uk-UK', options);
 
     const operations = [
@@ -34,6 +35,10 @@ const Wallets = observer(() => {
         {id: 5, type:2, name: "Дарунок", value: 20000, date: new Date(2023,1,23,15,25,26), items: []}
 
     ];
+
+    useEffect(() => {
+
+    }, [])
 
      function setNewDate (operation) {
          selectedDate = operation;

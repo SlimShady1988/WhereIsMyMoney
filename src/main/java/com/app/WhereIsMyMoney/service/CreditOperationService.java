@@ -71,7 +71,7 @@ public class CreditOperationService implements CreditOperationServiceInterface {
             var category = categoryService.findById(operation.getCategory());
             var wallet = walletService.findById(operation.getWallet());
             var value = operation.getValue();
-//            var value = productService.getValue(operation.getId());
+            wallet.setBalance(wallet.getBalance().add(value));
             CreditOperation newCreditOperation = new CreditOperation();
             newCreditOperation.setWallet(wallet);
             newCreditOperation.setCategory(category);

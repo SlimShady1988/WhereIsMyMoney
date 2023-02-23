@@ -31,10 +31,10 @@ public class DebitCategory extends BaseCategory implements Category, Debit {
 //
 //    @Column(name = "img", nullable = false)
 //    private String img;
-//    @JsonBackReference
-//    @ToString.Exclude
-    @JoinColumn(name = "user_id", unique = true)
+
+    @JsonBackReference
     @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "debit_user_fk"))
     private User user;
 
 //    @ToString.Exclude

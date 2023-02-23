@@ -18,6 +18,10 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+//        return ResponseEntity.ok(userService.getUser(id));
+//    }
 
     @GetMapping("/list")
     public ResponseEntity<?> clientsList() {

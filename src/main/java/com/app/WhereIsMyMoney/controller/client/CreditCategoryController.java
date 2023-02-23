@@ -18,6 +18,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("categories/credit")
 public class CreditCategoryController {
     private final CreditCategoryServiceInterface categoryService;

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/operations/credit")
 public class CreditOperationController {
     private final CreditOperationService operationService;

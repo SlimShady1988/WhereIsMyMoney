@@ -21,7 +21,6 @@ const Auth = observer (() => {
                 } else {
                     data = await registration(username, password);
                 }
-
                 user.setUser(user);
                 user.setIsAuth(true);
                 navigate(ABOUT_ROUTE)
