@@ -3,6 +3,7 @@ import {Button, Col, Dropdown, Form, Modal, Row, Table} from "react-bootstrap";
 import "../../pages/style/hide_spinner.css"
 import UserContext from "../../context";
 import {observer} from "mobx-react-lite";
+import {fetchWallets} from "../../http/walletApi";
 
 const PlannedCreditOperationModal = observer( ({show, onHide, data}) => {
     const options = {year: "numeric", month: 'long', day: 'numeric' };
@@ -12,7 +13,14 @@ const PlannedCreditOperationModal = observer( ({show, onHide, data}) => {
     const [category, setCategory] = useState('');
     const [name, setName] = useState('');
     const [table, setTable] = useState([])
+    const [wallets, setWallets] = useState([])
     let title = "Планую купити";
+
+    useEffect(() => {
+        fetchWallets().then(data => {
+            setWallets(data)
+        })
+    }, [])
 
     const addGoods = () => {
         setTable(['№', 'Назва товару', 'Кількість товару'])
@@ -68,7 +76,7 @@ const PlannedCreditOperationModal = observer( ({show, onHide, data}) => {
                                 <Dropdown className="mb-3">
                                     <Dropdown.Toggle> {wallet || 'Виберіть заначку'}</Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        {user.wallets.map(item =>
+                                        {wallets.map(item =>
                                             <Dropdown.Item
                                                 onClick={() => setWallet(item.name)}
                                                 key={item.name}>{item.name}

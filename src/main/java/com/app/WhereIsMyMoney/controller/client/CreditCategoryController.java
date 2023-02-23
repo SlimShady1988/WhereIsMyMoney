@@ -3,6 +3,7 @@ package com.app.WhereIsMyMoney.controller.client;
 import com.app.WhereIsMyMoney.dto.CreditCategoryDTO;
 import com.app.WhereIsMyMoney.dto.MessageResponse;
 import com.app.WhereIsMyMoney.entity.CreditCategory;
+import com.app.WhereIsMyMoney.entity.DebitCategory;
 import com.app.WhereIsMyMoney.entity.User;
 import com.app.WhereIsMyMoney.service.CreditCategoryService;
 import com.app.WhereIsMyMoney.service.CreditCategoryServiceInterface;
@@ -34,10 +35,8 @@ public class CreditCategoryController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getCategoriesByUser(Principal principal,
-                                                 @RequestParam(required = false, name = "userId") Long userId
-    ) throws Exception {
-        List<CreditCategory> categories = categoryService.getCategories(userId);
+    public ResponseEntity<?> getCategories(Principal principal) throws Exception {
+        List<CreditCategory> categories = categoryService.getCategories(principal.getName());
 
         return ResponseEntity.ok(categories);
     }

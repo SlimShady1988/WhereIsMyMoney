@@ -3,6 +3,7 @@ import {Button, Col, Dropdown, Form, Modal, Row, Table} from "react-bootstrap";
 import "../../pages/style/hide_spinner.css"
 import UserContext from "../../context";
 import {observer} from "mobx-react-lite";
+import {fetchWallets} from "../../http/walletApi";
 
 
 const CreateCreditOperationModal = observer(({show, onHide}) => {
@@ -14,6 +15,7 @@ const CreateCreditOperationModal = observer(({show, onHide}) => {
     const [controlDivs, setControlDivs] = useState([document.querySelectorAll('.amount-value')]);
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState('');
+    const [wallets, setWallets] = useState([]);
     let title = "Що пішло - того не вернеш";
 
     const addGoods = () => {
@@ -103,6 +105,12 @@ const CreateCreditOperationModal = observer(({show, onHide}) => {
 
     }, [controlDivs])
 
+    useEffect(() => {
+        fetchWallets().then(data => {
+            setWallets(data)
+        })
+    }, [])
+
 
     const submitCredit = () => {
         goods.map(good => {
@@ -128,7 +136,7 @@ const CreateCreditOperationModal = observer(({show, onHide}) => {
                                 <Dropdown className="mb-3">
                                     <Dropdown.Toggle> { wallet || 'Виберіть заначку'}</Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        {user.wallets.map(item =>
+                                        {wallets.map(item =>
                                             <Dropdown.Item
                                                 onClick={() =>setWallet(item.name)}
                                                 key={item.name}>{item.name}

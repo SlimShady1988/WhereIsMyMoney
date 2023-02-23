@@ -1,8 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Dropdown, Form, Modal} from "react-bootstrap";
 import UserContext from "../../context";
 import "../../pages/style/hide_spinner.css"
 import {observer} from "mobx-react-lite";
+import {fetchWallets} from "../../http/walletApi";
 
 const CreateDebitOperationModal = observer( ({show, onHide}) => {
     const {user} = useContext(UserContext)
@@ -10,7 +11,13 @@ const CreateDebitOperationModal = observer( ({show, onHide}) => {
     const [category, setCategory] = useState('');
     const [name, setName] = useState('');
     const [amount, setAmount] = useState(0);
+    const [wallets, setWallets] = useState([])
 
+    useEffect(() => {
+        fetchWallets().then(data => {
+            setWallets(data)
+        })
+    }, [])
 
     const submitDebit = () => {
         onHide();
@@ -28,7 +35,7 @@ const CreateDebitOperationModal = observer( ({show, onHide}) => {
                                 <Dropdown className="mb-3">
                                     <Dropdown.Toggle>Виберіть заначку</Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        {user.wallets.map(item =>
+                                        {wallets.map(item =>
                                             <Dropdown.Item
                                                 onChange={()=>setWallet(item.name)}
                                                 key={item.name}>{item.name}</Dropdown.Item>

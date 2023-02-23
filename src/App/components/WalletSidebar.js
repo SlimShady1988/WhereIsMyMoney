@@ -11,8 +11,8 @@ const WalletSidebar = observer(() => {
         fetchWallets().then(data => {
             setWallets(data)
         })
-
     }, [])
+
     return (
         <ListGroup className="my-3">
             {wallets.map(wallet=>

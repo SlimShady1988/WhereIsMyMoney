@@ -28,16 +28,22 @@ public class DebitCategoryService implements DebitCategoryServiceInterface {
 
     @Override
     public DebitCategory findById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(RuntimeException::new);
+        try {
+            return categoryRepository.findById(id).orElseThrow(RuntimeException::new);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
-    public List<DebitCategory> getCategories(Long userId) throws Exception {
+    public List<DebitCategory> getCategories(String username) {
         try {
-            User user = userService.findById(userId);
-                return categoryRepository.findAllByUser(user).orElseThrow(RuntimeException::new);
+            User user = userService.getUser(username);
+            var categories =  categoryRepository.findAllByUser(user)
+                    .orElseThrow(RuntimeException::new);
+            return categories.stream().filter(category -> category.getStatus().equals("active")).toList();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

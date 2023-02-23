@@ -95,7 +95,6 @@ const CreditOperation = observer(() => {
         for (let i = 0; i < $sum.length; i++) {
             amount += Number($sum.item(i).value);
         }
-        console.log(amount)
         let total = document.querySelector('.total-amount');
         if ($sum.length > 0) {
             total.setAttribute('disabled', '');

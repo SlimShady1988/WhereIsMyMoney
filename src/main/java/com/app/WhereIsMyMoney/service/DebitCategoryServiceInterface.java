@@ -13,7 +13,7 @@ public interface DebitCategoryServiceInterface {
 
     DebitCategory findById(Long id);
 
-    List<DebitCategory> getCategories(Long userId) throws Exception;
+    List<DebitCategory> getCategories(String username) throws Exception;
 
     DebitCategory addCategory(MultipartFile file, String name, User user);
 

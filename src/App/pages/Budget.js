@@ -8,7 +8,6 @@ const Budget = () => {
     const [budget, setBudget] = useState()
     const {user} = useContext(UserContext)
     const categories = user._credit_categories;
-    console.log(categories)
 
     const save = (categoryId) => {
         console.log("відправ запит на update  поля бюджет категорії з ID categoryId в БД ")

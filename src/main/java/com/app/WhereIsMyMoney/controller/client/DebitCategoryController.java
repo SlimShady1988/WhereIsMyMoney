@@ -32,11 +32,8 @@ public class DebitCategoryController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getCategoriesByUser(Principal principal,
-                                                 @RequestParam(required = false, name = "userId") Long userId
-    ) throws Exception {
-       //        var userId =  principal.getName();
-        List<DebitCategory> categories = categoryService.getCategories(userId);
+    public ResponseEntity<?> getCategories(Principal principal) {
+        List<DebitCategory> categories = categoryService.getCategories(principal.getName());
 
         return ResponseEntity.ok(categories);
     }

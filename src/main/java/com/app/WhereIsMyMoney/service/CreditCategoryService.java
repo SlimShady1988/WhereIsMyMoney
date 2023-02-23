@@ -2,6 +2,7 @@ package com.app.WhereIsMyMoney.service;
 
 import com.app.WhereIsMyMoney.dto.CreditCategoryDTO;
 import com.app.WhereIsMyMoney.entity.CreditCategory;
+import com.app.WhereIsMyMoney.entity.DebitCategory;
 import com.app.WhereIsMyMoney.entity.User;
 import com.app.WhereIsMyMoney.excaptions.CategoryAlreadyExistException;
 import com.app.WhereIsMyMoney.repository.CreditCategoryRepository;
@@ -33,12 +34,14 @@ public class CreditCategoryService implements CreditCategoryServiceInterface {
     }
 
     @Override
-    public List<CreditCategory> getCategories(Long userId) throws Exception {
+    public List<CreditCategory> getCategories(String username) {
         try {
-            User user = userService.findById(userId);
-            return creditCategoryRepository.findAllByUser(user).orElseThrow(RuntimeException::new);
+            User user = userService.getUser(username);
+            var categories =  creditCategoryRepository.findAllByUser(user)
+                    .orElseThrow(RuntimeException::new);
+            return categories.stream().filter(category -> category.getStatus().equals("active")).toList();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

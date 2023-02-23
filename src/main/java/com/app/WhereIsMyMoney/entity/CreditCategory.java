@@ -3,6 +3,7 @@ package com.app.WhereIsMyMoney.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,8 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class CreditCategory extends BaseCategory implements Category, Credit {
-
-
     @JsonManagedReference
     @ToString.Exclude
     @OneToMany(
@@ -35,7 +34,12 @@ public class CreditCategory extends BaseCategory implements Category, Credit {
 //    private String img;
 
     @Column(name = "budget")
+    @ColumnDefault("0")
     private BigDecimal budget;
+
+    @Column(name = "spend")
+    @ColumnDefault("0")
+    private BigDecimal spend;
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "credit_user_fk"))

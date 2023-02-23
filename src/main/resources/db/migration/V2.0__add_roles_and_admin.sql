@@ -30,12 +30,12 @@ INSERT INTO debit_categories(user_id, name, operations_sum, id, img) VALUES (1, 
 INSERT INTO debit_categories(user_id, name, operations_sum, id, img) VALUES (1, 'Rent', 20000, 4, '');
 INSERT INTO debit_categories(user_id, name, operations_sum, id, img) VALUES (1, 'Deposit', 4000, 5, '');
 
-INSERT INTO credit_categories(user_id, name, budget, id, img) VALUES (1,'Food', 3000, 1, '');
-INSERT INTO credit_categories(user_id, name, budget, id, img) VALUES (1,'Car', 1000, 2, '');
-INSERT INTO credit_categories(user_id, name, budget, id, img) VALUES (1,'Cafe & Restaurants', 2000, 3, '');
-INSERT INTO credit_categories(user_id, name, budget, id, img) VALUES (1,'Home', 5000, 4, '');
-INSERT INTO credit_categories(user_id, name, budget, id, img) VALUES (1,'Present', 10000, 5, '');
-INSERT INTO credit_categories(user_id, name, budget, id, img) VALUES (1,'Community Payment', 3000, 6, '');
+INSERT INTO credit_categories(user_id, spend, name, budget, id, img) VALUES (1, 2500, 'Food', 3000, 1, '');
+INSERT INTO credit_categories(user_id, spend, name, budget, id, img) VALUES (1, 2500, 'Car', 1000, 2, '');
+INSERT INTO credit_categories(user_id, spend, name, budget, id, img) VALUES (1, 2500, 'Cafe & Restaurants', 2000, 3, '');
+INSERT INTO credit_categories(user_id, spend, name, budget, id, img) VALUES (1, 2500, 'Home', 5000, 4, '');
+INSERT INTO credit_categories(user_id, spend, name, budget, id, img) VALUES (1, 2500, 'Present', 10000, 5, '');
+INSERT INTO credit_categories(user_id, spend, name, budget, id, img) VALUES (1, 3800, 'Community Payment', 3000, 6, '');
 
 INSERT INTO debit_operations(id, name, value, category_id, wallet_id) VALUES (1, 'січень', 50000, 1, 2);
 INSERT INTO debit_operations(id, name, value, category_id, wallet_id) VALUES (2, 'лютий', 50000, 1, 1);

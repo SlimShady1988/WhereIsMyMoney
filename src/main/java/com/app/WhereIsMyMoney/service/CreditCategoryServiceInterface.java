@@ -14,7 +14,7 @@ public interface CreditCategoryServiceInterface {
 
     CreditCategory findById(Long id);
 
-    List<CreditCategory> getCategories(Long userId) throws Exception;
+    List<CreditCategory> getCategories(String username) throws Exception;
 
     CreditCategory addCategory(MultipartFile file, String name, User user, BigDecimal budget);
 

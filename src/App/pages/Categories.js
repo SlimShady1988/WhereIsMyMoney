@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import UserContext from "../context";
 import {Button, ButtonGroup, Container, Row, ToggleButton} from "react-bootstrap";
@@ -7,20 +7,38 @@ import CategoryDiagram from "../components/CategoryDiagram";
 import CreateCreditCategoryModal from "../components/modals/CreateCreditCategoryModal";
 import CreateDebitCategoryModal from "../components/modals/CreateDebitCategoryModal";
 import "../pages/style/hide_spinner.css"
+import {fetchDebitCategories} from "../http/debitCategoryApi";
+import {fetchCreditCategories} from "../http/creditCategoryApi";
 
 const Categories = observer(() => {
     const {user} = useContext(UserContext)
     const [radioValue, setRadioValue] = useState('1');
+    const debitTotal = useRef();
+    const totalBudget = useRef();
     const [categories, setCategories] = useState([]);
     const [labels, setLabels] = useState([]);
     const [percents, setPercents] = useState([]);
     const [debitCategoryModalVisible, setDebitCategoryModalVisible] = useState(false);
     const [creditCategoryModalVisible, setCreditCategoryModalVisible] = useState(false);
 
-    let creditBudget = user.creditBudget;
-    let debitTotal = user.debitTotal;
 
     useEffect(() => {
+        fetchDebitCategories().then(categories=> {
+            let sum = 0
+            categories.map(category => {
+                sum = sum + category.operationsSum;
+            })
+            debitTotal.current = sum;
+        })
+
+        fetchCreditCategories().then(categories=> {
+            let sum = 0
+            categories.map(category => {
+                sum = sum + category.budget;
+            })
+            totalBudget.current = sum;
+        })
+
         createCreditCategories()
     }, [])
 
@@ -42,34 +60,34 @@ const Categories = observer(() => {
         let categories = [];
         let labels = [];
         let percents = [];
-        user.debit_categories.map(category => {
-                let cPercent = Math.round((category.debitValue * 100 / debitTotal) * 100) / 100;
+        fetchDebitCategories().then(data => {
+            data.map(category => {
+                let cPercent = Math.round((category.operationsSum * 100 / debitTotal.current) * 100) / 100;
                 percents.push(cPercent);
                 labels.push(category.name)
-
-                return  categories.push({
+                categories.push({
                     id: category.id,
                     name: category.name,
-                    value: category.debitValue,
+                    value: category.operationsSum,
                     img: category.img,
                 });
-            }
-        );
-        setCategories(categories);
-        setLabels(labels)
-        setPercents(percents);
+            });
+            setCategories(categories);
+            setLabels(labels)
+            setPercents(percents);
+        })
     }
 
     const createCreditCategories = () => {
         let categories = [];
         let labels = [];
         let percents = [];
-        user.credit_categories.map(category => {
-            let cPercent = Math.round((category.budget * 100 / creditBudget) * 100) / 100;
-            percents.push(cPercent);
+        fetchCreditCategories().then(data =>{
+            data.map(category => {
+                let cPercent = Math.round((category.budget * 100 / totalBudget.current) * 100) / 100;
+                percents.push(cPercent);
                 labels.push(category.name)
-
-                return  categories.push({
+                categories.push({
                     id: category.id,
                     name: category.name,
                     budget: category.budget,
@@ -77,11 +95,11 @@ const Categories = observer(() => {
                     img: category.img,
                     percentDone: (category.spend * 100 / category.budget)
                 });
-            }
-        );
+            });
         setCategories(categories);
         setLabels(labels)
-        setPercents(percents);
+            setPercents(percents);
+        })
     }
 
     return (

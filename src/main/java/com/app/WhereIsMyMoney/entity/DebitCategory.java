@@ -3,8 +3,10 @@ package com.app.WhereIsMyMoney.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,8 +28,9 @@ public class DebitCategory extends BaseCategory implements Category, Debit {
     )
     private List<DebitOperation> debitOperations = new ArrayList<>();
 
-//    @Column(name = "name", nullable = false)
-//    private String name;
+    @Column(name = "operations_sum", nullable = false)
+    @ColumnDefault("0")
+    private BigDecimal operationsSum;
 //
 //    @Column(name = "img", nullable = false)
 //    private String img;

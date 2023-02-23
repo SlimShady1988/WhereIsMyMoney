@@ -1,36 +1,31 @@
-import {$authHost, $host} from "../index";
+import {$authHost} from "../http/index";
 
-export const createCategory = async (category) => {
-     const {data} = await $authHost.post("api/category/create", category);
+export const activateCreditCategory = async (creditCategory) => {
+     const {data} = await $authHost.patch("api/categories/credit/update", creditCategory);
      return data;
 }
-//
-export const fetchCategory = async () => {
-     const {data} = await $host.get("api/category");
+
+// export const addCreditCategory = async(debitCategory) => {
+//      const {data} = await $authHost.post("api/categories/credit/add", debitCategory);
+//      return data;
+// }
+
+export const createCreditCategory = async(creditCategory) => {
+     const {data} = await $authHost.post("api/categories/credit/create", creditCategory);
      return data;
 }
-//
-// export const createBrand = async (brand) => {
-//      const {data} = await $authHost.post("api/brand/create", brand);
-//      return data;
-// }
-//
-// export const fetchBrands = async () => {
-//      const {data} = await $host.get("api/brand");
-//      return data;
-// }
-//
-// export const createDevice = async (device) => {
-//      const {data} = await $authHost.post("api/device/create", device);
-//      return data;
-// }
-//
-// export const fetchDevices = async (typeId, brandId, page, limit = 5) => {
-//      const {data} = await $host.get("api/device", {params: {typeId, brandId, page, limit}});
-//      return data;
-// }
-//
-// export const fetchOneDevice = async (id) => {
-//      const {data} = await $host.get("api/device/" + id);
-//      return data;
-// }
+
+export const deleteCreditCategory = async(id) => {
+     const {data} = await $authHost.delete("api/categories/credit/delete/" + id);
+     return data;
+}
+
+export const getCreditCategory = async (id) => {
+     const {data} = await $authHost.get("api/categories/" + id);
+     return data;
+}
+
+export const fetchCreditCategories = async () => {
+     const {data} = await $authHost.get("api/categories/credit/list");
+     return data;
+}
